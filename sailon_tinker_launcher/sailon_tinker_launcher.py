@@ -5,6 +5,7 @@ import colorlog
 import logging
 import json
 import hashlib
+from datetime import datetime
 from pathlib import Path
 from pkg_resources import iter_entry_points, DistributionNotFound
 
@@ -34,24 +35,37 @@ def discoverable_plugins():
     return discovered_plugins
 
 
-# def combine_configs(base_config, config):
-#     for key, val in config.items():
-#
-#
-#
-#     return base_config
-
-
-class ShowConfig(protocol.Protocol):
+class LaunchSailonProtocol(protocol.Protocol):
     """A protocol demonstrating how meta-configurations work."""
 
     def __init__(self):
+        self.config = {}
         for handler in logging.getLogger().handlers:
-            handler.setFormatter(colorlog.ColoredFormatter('%(log_color)s%(levelname)s:%(name)s:%(message)s'))
+            # For some reason isinstance doesn't work here but at least this does
+            if handler.__class__ == logging.StreamHandler:
+                handler.setFormatter(
+                    colorlog.ColoredFormatter(
+                        fmt='[%(cyan)s%(asctime)s%(reset)s][%(blue)s%(name)s%(reset)s]'
+                            '[%(log_color)s%(levelname)s%(reset)s] - %(message)s',
+                        log_colors={
+                            'DEBUG': 'purple',
+                            'INFO': 'green',
+                            'WARNING': 'yellow',
+                            'ERROR': 'red',
+                            'CRITICAL': 'red,bg_white',
+                        },
+                    ),
+                )
+            else:
+                handler.setFormatter(
+                    fmt=logging.Formatter(
+                        '[%(asctime)s][%(name)s][%(levelname)s] - %(message)s'
+                    )
+                )
 
     def get_config(self):
         """Return a default configuration dictionary."""
-        return {}
+        return self.config
 
     @staticmethod
     def setup_experiment(config):
@@ -92,7 +106,6 @@ class ShowConfig(protocol.Protocol):
         name = hashlib.blake2b(jconfig.encode('utf-8'), digest_size=10).hexdigest()
 
         log.info(f'Folder {name} created for the following config')
-        log.info(jconfig)
         working_folder = Path(privileged_config['workdir'], name).expanduser().resolve()
         working_folder.mkdir(exist_ok=True, parents=True)
 
@@ -100,8 +113,7 @@ class ShowConfig(protocol.Protocol):
         working_config_fp = working_folder / 'config.json'
         with open(working_config_fp, 'w') as f:
             f.write(jconfig)
-        log.debug(f'Config Filepath: {working_config_fp}')
-        log.debug(f'Config{jconfig}')
+        log.debug(f'Config: \n{jconfig}')
 
         return working_folder, working_config_fp, privileged_config, config
 
@@ -115,14 +127,22 @@ class ShowConfig(protocol.Protocol):
                 - Output of algorithm
 
         TODO:
-            - Figure out how to capture log from this process and port it to the folder.
             - Update Results of Protocol to save to this new file.
             - Update any intermittent steps to this folder.
         """
 
-        # Setup working folder
+        # Setup working folder and create new config for this run
         working_folder, working_config_fp, privileged_config, config = self.setup_experiment(config)
-        log.info(working_config_fp)
+        self.config = config
+
+        # Now experiment setup, start a new logger for this
+        fh = logging.FileHandler(working_folder / f'{datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")}.log')
+        fh.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] - %(message)s')
+        fh.setFormatter(formatter)
+        logging.getLogger().addHandler(fh)
+        log.info(f'Config Filepath: {working_config_fp}')
+        log.info(f'Config: \n{json.dumps(config, indent=4)}')
 
         # Load the harness
         # This config is not used but will throw error if not pointed at
@@ -162,3 +182,5 @@ class ShowConfig(protocol.Protocol):
         # Run the protocol
         protocol.run_protocol()
         log.info('Protocol Finished')
+
+        logging.getLogger().removeHandler(fh)
