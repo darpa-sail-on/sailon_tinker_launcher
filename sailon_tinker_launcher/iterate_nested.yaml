@@ -1,0 +1,6 @@
+protocol:
+  iterate:
+    - 'ond'
+    - 'condda'
+workdir: './workdir/'
+harness: 'local'
