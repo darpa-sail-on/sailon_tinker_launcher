@@ -1,13 +1,15 @@
 """Meta-configuration demonstration."""
 
-from tinker import protocol
 import colorlog
 import logging
 import json
 import hashlib
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, Any, Tuple
 from pkg_resources import iter_entry_points, DistributionNotFound
+
+from tinker.protocol import Protocol
 
 from sail_on_client.protocol.condda_config import ConddaConfig
 from sail_on_client.protocol.ond_config import OndConfig
@@ -21,7 +23,7 @@ import sail_on_client.protocol as protocol_folder
 log = logging.getLogger(__name__)
 
 
-def discoverable_plugins():
+def discoverable_plugins() -> Dict[str, Any]:
     """
     Fixture to replicate plugin discovery from framework.
     """
@@ -35,10 +37,11 @@ def discoverable_plugins():
     return discovered_plugins
 
 
-class LaunchSailonProtocol(protocol.Protocol):
+class LaunchSailonProtocol(Protocol):
     """A protocol demonstrating how meta-configurations work."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        super().__init__()
         self.config = {}
         for handler in logging.getLogger().handlers:
             # For some reason isinstance doesn't work here but at least this does
@@ -63,12 +66,12 @@ class LaunchSailonProtocol(protocol.Protocol):
                     )
                 )
 
-    def get_config(self):
+    def get_config(self) -> Dict[str, Any]:
         """Return a default configuration dictionary."""
         return self.config
 
     @staticmethod
-    def setup_experiment(config):
+    def setup_experiment(config: Dict[str, Any]) -> Tuple[Path, Path, Dict[str, str], Dict[str, Any]]:
         """ Setup the folder and configuration for the experiment
         Steps involved in setup:
         - Delete the keys for this protocol and only pass on other parameters to sail-on protocols.
@@ -117,7 +120,7 @@ class LaunchSailonProtocol(protocol.Protocol):
 
         return working_folder, working_config_fp, privileged_config, config
 
-    def run_protocol(self, config):
+    def run_protocol(self, config: Dict[str, Any]) -> None:
         """Run the protocol by printout out the config.
         Config passed in uses 3 parameters to control the launching of the protocols
             - protocol: either 'ond' or 'condda' to define which protocol to run
@@ -165,22 +168,22 @@ class LaunchSailonProtocol(protocol.Protocol):
         # Load the protocol
         if privileged_config['protocol'] == 'ond':
             log.info('Running OND Protocol')
-            protocol = OND(discovered_plugins=plugins,
+            run_protocol = OND(discovered_plugins=plugins,
                            algorithmsdirectory='',
                            harness=harness,
-                           config_file=working_config_fp)
+                           config_file=str(working_config_fp))
         elif privileged_config['protocol'] == 'condda':
             log.info('Running Condda Protocol')
-            protocol = Condda(discovered_plugins=plugins,
+            run_protocol = Condda(discovered_plugins=plugins,
                               algorithmsdirectory='',
                               harness=harness,
-                              config_file=working_config_fp)
+                              config_file=str(working_config_fp))
         else:
             raise AttributeError(f'Please set protocol to either "ond" or "condda".  '
                                  f'"{privileged_config["protocol"]}" in the config files')
 
         # Run the protocol
-        protocol.run_protocol()
+        run_protocol.run_protocol()
         log.info('Protocol Finished')
 
         logging.getLogger().removeHandler(fh)
