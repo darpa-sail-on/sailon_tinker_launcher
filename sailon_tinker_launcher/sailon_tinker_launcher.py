@@ -56,19 +56,21 @@ class ShowConfig(protocol.Protocol):
     @staticmethod
     def setup_experiment(config):
         """ Setup the folder and configuration for the experiment
+        Steps involved in setup:
+        - Delete the keys for this protocol and only pass on other parameters to sail-on protocols.
+        - Validate config being sent to a protocol
+        - hash the dictionary to create name of work folder and create the folder
+        - save the config into the new folder
 
         Args:
             config: the configuration of the experiment
 
         """
-
-        # 1   Delete the keys for this protocol and only pass on other parameters.
-
         jconfig = json.dumps(config, indent=4)
         log.info('Running Config:')
         log.info(jconfig)
 
-        # Remove the Metaprotocol config items
+        # 1  Delete the keys for this protocol and only pass on other parameters.
         privileged_config = {'protocol': '', 'workdir': '', 'harness': ''}
         for pk in privileged_config.keys():
             if pk not in config:
@@ -94,7 +96,7 @@ class ShowConfig(protocol.Protocol):
         working_folder = Path(privileged_config['workdir'], name).expanduser().resolve()
         working_folder.mkdir(exist_ok=True, parents=True)
 
-        # 5 save the config into the new folder.
+        # 4 save the config into the new folder.
         working_config_fp = working_folder / 'config.json'
         with open(working_config_fp, 'w') as f:
             f.write(jconfig)
@@ -104,15 +106,26 @@ class ShowConfig(protocol.Protocol):
         return working_folder, working_config_fp, privileged_config, config
 
     def run_protocol(self, config):
-        """Run the protocol by printout out the config."""
+        """Run the protocol by printout out the config.
+        Config passed in uses 3 parameters to control the launching of the protocols
+            - protocol: either 'ond' or 'condda' to define which protocol to run
+            - harness:  either 'local' or 'par' to define which harness to use
+            - workdir: a directory to save all the information from the run including
+                - Config
+                - Output of algorithm
+
+        TODO:
+            - Figure out how to capture log from this process and port it to the folder.
+            - Update Results of Protocol to save to this new file.
+            - Update any intermittent steps to this folder.
+        """
 
         # Setup working folder
         working_folder, working_config_fp, privileged_config, config = self.setup_experiment(config)
-
-        # 2 Setup inputs for
         log.info(working_config_fp)
-        # Load the harness
 
+        # Load the harness
+        # This config is not used but will throw error if not pointed at
         harnness_config_path = Path(protocol_folder.__file__).parent
         if privileged_config['harness'] == 'local':
             log.debug('Loading Local Harness')
@@ -124,10 +137,12 @@ class ShowConfig(protocol.Protocol):
             raise AttributeError(f'Valid harnesses "local" or "par".  '
                                  f'Given harness "{privileged_config["harness"]}" ')
 
+        # Get the plugins
         plugins = discoverable_plugins()
         log.debug('Plugins found:')
         log.debug(plugins)
 
+        # Load the protocol
         if privileged_config['protocol'] == 'ond':
             log.info('Running OND Protocol')
             protocol = OND(discovered_plugins=plugins,
@@ -145,7 +160,5 @@ class ShowConfig(protocol.Protocol):
                                  f'"{privileged_config["protocol"]}" in the config files')
 
         # Run the protocol
-
         protocol.run_protocol()
-
         log.info('Protocol Finished')
