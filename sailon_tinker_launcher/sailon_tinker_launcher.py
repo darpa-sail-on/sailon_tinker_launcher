@@ -111,6 +111,14 @@ class LaunchSailonProtocol(Protocol):
         log.info(f'Folder {name} created for the following config')
         working_folder = Path(privileged_config['workdir'], name).expanduser().resolve()
         working_folder.mkdir(exist_ok=True, parents=True)
+        if config['save_dir'] == '{workdir.id}':
+            config['save_dir'] = str(working_folder)
+        config['detector_config']['csv_folder'] = str(
+            working_folder / config['detector_config']['csv_folder']
+        )
+
+        Path(config['detector_config']['csv_folder']).mkdir(exist_ok=True, parents=True)
+        jconfig = json.dumps(config, indent=4)
 
         # 4 save the config into the new folder.
         working_config_fp = working_folder / 'config.json'
@@ -151,10 +159,10 @@ class LaunchSailonProtocol(Protocol):
         # This config is not used but will throw error if not pointed at
         harnness_config_path = Path(protocol_folder.__file__).parent
         if privileged_config['harness'] == 'local':
-            log.debug('Loading Local Harness')
+            log.info('Loading Local Harness')
             harness = LocalInterface('configuration.json', harnness_config_path)
         elif privileged_config['harness'] == 'par':
-            log.debug('Loading Par Harness')
+            log.info('Loading Par Harness')
             harness = ParInterface('configuration.json', harnness_config_path)
         else:
             raise AttributeError(f'Valid harnesses "local" or "par".  '
