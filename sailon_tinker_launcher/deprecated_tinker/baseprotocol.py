@@ -10,6 +10,8 @@ from sailon_tinker_launcher.deprecated_tinker.basealgorithm import BaseAlgorithm
 from sailon_tinker_launcher.deprecated_tinker.harness import Harness
 from typing import Any, Dict
 
+log = logging.getLogger(__name__)
+
 
 class BaseProtocol(metaclass=abc.ABCMeta):
     """Provide generic toolset storage and mechanism to retrieve algorithms given their filename."""
@@ -68,19 +70,18 @@ class BaseProtocol(metaclass=abc.ABCMeta):
         # instead.
 
         # Validate the toolset is a dictionary or None
-        if toolset:
-            if not isinstance(toolset, dict):
-                logging.error("toolset must be a dictionary")
-                exit(1)
+        if toolset and not isinstance(toolset, dict):
+            log.error("toolset must be a dictionary")
+            exit(1)
 
         # if the file exists, then load the algo from the file. If not, then
         # load the algo from plugin
         algofile = os.path.join(self.algorithmsbase, algotype)
         if os.path.exists(algofile) and not os.path.isdir(algofile):
-            logging.info(f"{algotype} found in algorithms path, loading file")
+            log.info(f"{algotype} found in algorithms path, loading file")
             return self.load_from_file(algofile, toolset)
         else:
-            logging.info(f"{algotype} not found in path, loading plugin")
+            log.info(f"{algotype} not found in path, loading plugin")
             return self.load_from_plugin(algotype, toolset)
 
     def load_from_file(self, algofile: str, toolset: Dict[str, Any]) -> BaseAlgorithm:
@@ -105,7 +106,7 @@ class BaseProtocol(metaclass=abc.ABCMeta):
                         # construct the algorithm object
                         algorithm = obj(toolset)
         else:
-            logging.error("Given algorithm is not a python file, other types not supported")
+            log.error("Given algorithm is not a python file, other types not supported")
             exit(1)
 
         return algorithm
@@ -115,9 +116,9 @@ class BaseProtocol(metaclass=abc.ABCMeta):
 
         algorithm = self.discovered_plugins.get(algotype)
         if algorithm is None:
-            logging.error("Requested plugin not found")
+            log.error("Requested plugin not found")
             exit(1)
         if not issubclass(algorithm, BaseAlgorithm):
-            logging.error(f"Requested plugin {algotype} is not an algorithm")
+            log.error(f"Requested plugin {algotype} is not an algorithm")
             exit(1)
         return algorithm(toolset)

@@ -5,6 +5,8 @@ import logging
 
 from typing import Any, Dict
 
+log = logging.getLogger(__name__)
+
 
 class Harness:
     """Harness."""
@@ -14,7 +16,7 @@ class Harness:
 
         json_full_path = os.path.join(interface_config_path, json_configuration_file)
         if not os.path.exists(json_full_path):
-            logging.error("Given LocalInterface configuration file does not exist")
+            log.error("Given LocalInterface configuration file does not exist")
             exit(1)
 
         with open(json_full_path) as json_file:

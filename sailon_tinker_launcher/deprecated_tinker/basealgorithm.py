@@ -15,6 +15,8 @@ import logging
 
 from typing import Any, Dict
 
+log = logging.getLogger(__name__)
+
 
 class BaseAlgorithm(metaclass=abc.ABCMeta):
     """
@@ -42,7 +44,7 @@ class BaseAlgorithm(metaclass=abc.ABCMeta):
         if isinstance(toolset, dict):
             self.toolset = toolset
         elif toolset:
-            logging.error("Algorithms must be constructed with dictionary toolset")
+            log.error("Algorithms must be constructed with dictionary toolset")
             exit(1)
         else:
             toolset = {}
