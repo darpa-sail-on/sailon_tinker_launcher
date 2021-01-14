@@ -44,3 +44,6 @@ saved_attributes:
       - "Pr"
       - "P_max_known"
 save_dir: "{workdir.id}"
+defaults:
+    - hydra/job_logging: colorlog
+    - hydra/hydra_logging: colorlog

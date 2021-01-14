@@ -1,6 +1,5 @@
 """Meta-configuration demonstration."""
 
-import colorlog
 import logging
 import json
 import hashlib
@@ -8,8 +7,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Tuple
 from pkg_resources import iter_entry_points, DistributionNotFound
-
-from tinker.protocol import Protocol
 
 from sail_on_client.protocol.condda_config import ConddaConfig
 from sail_on_client.protocol.ond_config import OndConfig
@@ -37,34 +34,8 @@ def discoverable_plugins() -> Dict[str, Any]:
     return discovered_plugins
 
 
-class LaunchSailonProtocol(Protocol):
+class LaunchSailonProtocol(object):
     """A protocol demonstrating how meta-configurations work."""
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.config = {}
-        for handler in logging.getLogger().handlers:
-            # For some reason isinstance doesn't work here but at least this does
-            if handler.__class__ == logging.StreamHandler:
-                handler.setFormatter(
-                    colorlog.ColoredFormatter(
-                        fmt='[%(cyan)s%(asctime)s%(reset)s][%(blue)s%(name)s%(reset)s]'
-                            '[%(log_color)s%(levelname)s%(reset)s] - %(message)s',
-                        log_colors={
-                            'DEBUG': 'purple',
-                            'INFO': 'green',
-                            'WARNING': 'yellow',
-                            'ERROR': 'red',
-                            'CRITICAL': 'red,bg_white',
-                        },
-                    ),
-                )
-            else:
-                handler.setFormatter(
-                    fmt=logging.Formatter(
-                        '[%(asctime)s][%(name)s][%(levelname)s] - %(message)s'
-                    )
-                )
 
     def get_config(self) -> Dict[str, Any]:
         """Return a default configuration dictionary."""
@@ -86,6 +57,7 @@ class LaunchSailonProtocol(Protocol):
         jconfig = json.dumps(config, indent=4)
         log.info('Running Config:')
         log.info(jconfig)
+
 
         # 1  Delete the keys for this protocol and only pass on other parameters.
         privileged_config = {'protocol': '', 'workdir': '', 'harness': ''}
@@ -141,7 +113,6 @@ class LaunchSailonProtocol(Protocol):
 
         # Setup working folder and create new config for this run
         working_folder, working_config_fp, privileged_config, config = self.setup_experiment(config)
-        self.config = config
 
         # Now experiment setup, start a new logger for this
         fh = logging.FileHandler(working_folder / f'{datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")}.log')
@@ -195,3 +166,6 @@ class LaunchSailonProtocol(Protocol):
         log.info('Protocol Finished')
 
         logging.getLogger().removeHandler(fh)
+
+
+

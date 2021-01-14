@@ -5,7 +5,7 @@
 
 import unittest
 
-from sailon_tinker_launcher import sailon_tinker_launcher
+from sailon_tinker_launcher import main
 
 
 class TestSailon_tinker_launcher(unittest.TestCase):
