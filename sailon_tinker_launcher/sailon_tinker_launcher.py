@@ -33,7 +33,7 @@ def discoverable_plugins() -> Dict[str, Any]:
             ep = entry_point.load()
             discovered_plugins[entry_point.name] = ep
         except (DistributionNotFound, ImportError):
-            logging.exception(f"Plugin {entry_point.name} not found")
+            log.exception(f"Plugin {entry_point.name} not found")
     return discovered_plugins
 
 
@@ -80,7 +80,7 @@ class LaunchSailonProtocol(Protocol):
         - save the config into the new folder
 
         Args:
-            config: the configuration of the experiment
+            config: the configuration of the experiment.  Needs to include 'protocol', 'workdir', 'harness'
 
         """
         jconfig = json.dumps(config, indent=4)
@@ -137,9 +137,6 @@ class LaunchSailonProtocol(Protocol):
                 - Config
                 - Output of algorithm
 
-        TODO:
-            - Update Results of Protocol to save to this new file.
-            - Update any intermittent steps to this folder.
         """
 
         # Setup working folder and create new config for this run
@@ -161,9 +158,12 @@ class LaunchSailonProtocol(Protocol):
         if privileged_config['harness'] == 'local':
             log.info('Loading Local Harness')
             harness = LocalInterface('configuration.json', harnness_config_path)
+            harness.result_directory = config['detector_config']['csv_folder']
+            harness.file_provider.results_folder = config['detector_config']['csv_folder']
         elif privileged_config['harness'] == 'par':
             log.info('Loading Par Harness')
             harness = ParInterface('configuration.json', harnness_config_path)
+            harness.folder = config['detector_config']['csv_folder']
         else:
             raise AttributeError(f'Valid harnesses "local" or "par".  '
                                  f'Given harness "{privileged_config["harness"]}" ')
