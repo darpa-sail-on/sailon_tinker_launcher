@@ -18,7 +18,7 @@ hydra or tinker but not both, you only need to install one of them.
 Sail-on-client install instructions here: https://gitlab.kitware.com/darpa-sail-on/sail-on-client
 - Current branch: better_logging
 
-Tinker install instructions here:
+Tinker install instructions here: https://github.com/tinker-engine/tinker-engine
 - Current Branch: configuration-handling
 
 Hydra install
@@ -33,6 +33,15 @@ For all installs, please run
    pip install -e .
 
 
+Ti install everything:
+
+.. codeblock:: bash
+
+  conda create -n sailon python=3.7 && conda activate sailon
+  conda install -y numpy scipy pytorch  torchvision torchaudio cudatoolkit=10.2 -c pytorch
+  python super_setup.py ensure
+  python super_setup.py develop
+  (cd ../evm_based_novelty_detector/timm/ && pip install -e .)
 
 To Run
 --------
@@ -44,10 +53,9 @@ Tinker run command:
   tinker -c sailon_tinker_launcher/config.yaml sailon_tinker_launcher/tinker_launcher.py
 
 To change to a different config, copy the file `sailon_tinker_launcher/config.yaml`
-and make your changes there.  You can update the -c parameter to laod you new configuration.
+and make your changes there.  You can update the -c parameter to load you new configuration.
 
 Ask Roni about multirun capabilities.
-
 
 
 Hydra Run Command:
