@@ -2,7 +2,6 @@
 
 import logging
 import json
-import hashlib
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Tuple
@@ -17,12 +16,14 @@ from sail_on_client.protocol.localinterface import LocalInterface
 from sail_on_client.protocol.parinterface import ParInterface
 import sail_on_client.protocol as protocol_folder
 
+import ubelt as ub
+
 log = logging.getLogger(__name__)
 
 
 def discoverable_plugins() -> Dict[str, Any]:
-    """
-    Fixture to replicate plugin discovery from framework.
+    """ Fixture to replicate plugin discovery from framework.
+    Looks for plugins within the environment that use the keyterm tinker
     """
     discovered_plugins = {}
     for entry_point in iter_entry_points("tinker"):
@@ -58,7 +59,6 @@ class LaunchSailonProtocol(object):
         log.info('Running Config:')
         log.info(jconfig)
 
-
         # 1  Delete the keys for this protocol and only pass on other parameters.
         privileged_config = {'protocol': '', 'workdir': '', 'harness': ''}
         for pk in privileged_config.keys():
@@ -77,8 +77,8 @@ class LaunchSailonProtocol(object):
                                  f'"{privileged_config["protocol"]}" in the config files')
 
         # 3 hash the dictionary to create temp name create the folder
-        jconfig = json.dumps(config, indent=4)
-        name = hashlib.blake2b(jconfig.encode('utf-8'), digest_size=10).hexdigest()
+        ub.util_hash._HASHABLE_EXTENSIONS._register_agressive_extensions()
+        name = ub.hash_data(config, hasher='xxh64')
 
         log.info(f'Folder {name} created for the following config')
         working_folder = Path(privileged_config['workdir'], name).expanduser().resolve()
@@ -108,6 +108,21 @@ class LaunchSailonProtocol(object):
             - workdir: a directory to save all the information from the run including
                 - Config
                 - Output of algorithm
+
+        Example:
+            >>> dpath = ub.ensure_app_cache_dir('tinker/tests')
+            >>> config = {
+            >>>     'workdir': ub.ensuredir((dpath, 'work')),
+            >>>     'harness': 'local',
+            >>>     'protocol': 'ond',
+            >>> }
+            >>> self = LaunchSailonProtocol()
+            >>> import pytest
+            >>> import sail_on
+            >>> with pytest.raises(sail_on.api.errors.ServerError):
+            >>>     self.run_protocol(config)
+            >>> work_dir = Path(dpath) / 'work' / '249431d0a18913f4'
+            >>> (work_dir / 'config.json').exists
 
         """
 
@@ -148,15 +163,15 @@ class LaunchSailonProtocol(object):
         if privileged_config['protocol'] == 'ond':
             log.info('Running OND Protocol')
             run_protocol = OND(discovered_plugins=plugins,
-                           algorithmsdirectory='',
-                           harness=harness,
-                           config_file=str(working_config_fp))
+                               algorithmsdirectory='',
+                               harness=harness,
+                               config_file=str(working_config_fp))
         elif privileged_config['protocol'] == 'condda':
             log.info('Running Condda Protocol')
             run_protocol = Condda(discovered_plugins=plugins,
-                              algorithmsdirectory='',
-                              harness=harness,
-                              config_file=str(working_config_fp))
+                                  algorithmsdirectory='',
+                                  harness=harness,
+                                  config_file=str(working_config_fp))
         else:
             raise AttributeError(f'Please set protocol to either "ond" or "condda".  '
                                  f'"{privileged_config["protocol"]}" in the config files')
@@ -166,6 +181,3 @@ class LaunchSailonProtocol(object):
         log.info('Protocol Finished')
 
         logging.getLogger().removeHandler(fh)
-
-
-
