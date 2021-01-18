@@ -27,6 +27,7 @@ def discoverable_plugins() -> Dict[str, Any]:
     """
     discovered_plugins = {}
     for entry_point in iter_entry_points("tinker"):
+        log.debug(f"Loading Plugin {entry_point.name}")
         try:
             ep = entry_point.load()
             discovered_plugins[entry_point.name] = ep

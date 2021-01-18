@@ -15,6 +15,9 @@ class TinkerLaunch(Protocol):
     """A protocol demonstrating how meta-configurations work."""
 
     def __init__(self) -> None:
+        """
+        Init function which will fix the logging from the tinker_launcher to make it easy to read
+        """
         super().__init__()
         self.config = {}
         for handler in logging.getLogger().handlers:

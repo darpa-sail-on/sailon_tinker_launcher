@@ -1,5 +1,5 @@
 protocol: 'ond'
-workdir: '/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/workdir'
+workdir: 'workdir'
 harness: 'par'
 domain: "image_classification"
 test_ids:
