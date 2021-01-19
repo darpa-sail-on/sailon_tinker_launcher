@@ -1,10 +1,11 @@
-protocol: 'ond'
-workdir: 'workdir'
+# @package _group_
+protocol: 'condda'
+workdir: '/home/chris/code/sailon_tinker_launcher/workdir'
 harness: 'par'
 domain: "image_classification"
 test_ids:
 - "OND.54012315.0900.1239"
-novelty_detector_class: "OND_12_With_Redlight"
+novelty_detector_class: "CONDDA_12_With_Redlight"
 hints:
 - "red_light"
 use_feedback: "True"
@@ -44,6 +45,3 @@ saved_attributes:
       - "Pr"
       - "P_max_known"
 save_dir: "{workdir.id}"
-defaults:
-    - hydra/job_logging: colorlog
-    - hydra/hydra_logging: colorlog
