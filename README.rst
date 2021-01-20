@@ -113,7 +113,7 @@ You can create a config for your cluster as a new file in `configs/hydra/launche
          problem.test_ids=["OND.54012315.0900.abc"],["OND.54012315.0900.ABC"]  \
          hydra/launcher=veydrus
 
-
+Note:  you need --multirun to use slurm launcher (otherwise it is just local)
 
 Configuration
 -------------
