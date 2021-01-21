@@ -1,5 +1,4 @@
 # @package hydra.launcher
-_target_: hydra_plugins.hydra_submitit_launcher.submitit_launcher.LocalLauncher
 submitit_folder: ${hydra.sweep.dir}/.submitit/%j
 timeout_min: 60
 cpus_per_task: 4
@@ -8,3 +7,13 @@ tasks_per_node: 1
 mem_gb: 30
 nodes: 1
 name: ${hydra.job.name}
+_target_: hydra_plugins.hydra_submitit_launcher.submitit_launcher.SlurmLauncher
+partition: priority
+comment: null
+constraint: null
+exclude: null
+signal_delay_s: 120
+max_num_timeout: 0
+additional_parameters: {}
+array_parallelism: 256
+

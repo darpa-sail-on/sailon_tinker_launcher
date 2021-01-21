@@ -1,0 +1,47 @@
+# @package _group_
+protocol: 'ond'
+workdir: '~/code/sailon_tinker_launcher/workdir'
+harness: 'par'
+domain: "image_classification"
+test_ids:
+- "OND.54012315.0900.1239"
+novelty_detector_class: "OND_12_With_Redlight"
+hints:
+- "red_light"
+use_feedback: "True"
+dataset_root: "/data/datasets/TA1-image-classification/dataset_v1"
+detector_config:
+    efficientnet_params:
+        model_path: "/data/christopher.funk/sail-on/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
+        known_classes: 413
+        image_size: 300
+    evm_params:
+        model_path: "/data/christopher.funk/sail-on/models/OND_12/EVM_cosine_model_umd_b3_CC_tail40000_ct7_dm55.hdf5"
+        tailsize: 40000
+        cover_threshold: 0.7
+        distance_multiplier: 0.55
+        distance_function: "cosine"
+        mu_train: 1.0
+        sigma_train: 0.1872130436656377
+        KL_threshold: 7.13040406025555
+        known_threshold: 0.7
+    dataloader_params:
+        batch_size: 128
+        num_workers: 20
+    csv_folder: "ond_result"
+    feedback_params:
+        first_budget: 10
+        income_per_batch: 10
+        maximum_budget: 10
+    classification_params:
+        alpha: 1.0
+        flag_only_evm: 1
+save_elementwise: "True"
+save_attributes: "True"
+saved_attributes:
+  FeatureExtraction:
+      - "FVs"
+      - "image_names"
+      - "Pr"
+      - "P_max_known"
+save_dir: "{workdir.id}"

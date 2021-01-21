@@ -39,7 +39,6 @@ This install everything:
 
    conda create -n sailon python=3.7 && conda activate sailon
    conda install -y numpy scipy pytorch  torchvision torchaudio cudatoolkit=10.2 -c pytorch
-   python super_setup.py ensure
    python super_setup.py develop
    (cd ../evm_based_novelty_detector/timm/ && pip install -e .)
 
