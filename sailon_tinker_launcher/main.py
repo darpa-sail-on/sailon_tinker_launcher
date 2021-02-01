@@ -21,12 +21,12 @@ import ubelt as ub
 log = logging.getLogger(__name__)
 
 
-def discoverable_plugins() -> Dict[str, Any]:
+def discoverable_plugins(entry_point: str = 'tinker') -> Dict[str, Any]:
     """ Fixture to replicate plugin discovery from framework.
     Looks for plugins within the environment that use the keyterm tinker
     """
     discovered_plugins = {}
-    for entry_point in iter_entry_points("tinker"):
+    for entry_point in iter_entry_points(entry_point):
         log.debug(f"Loading Plugin {entry_point.name}")
         try:
             ep = entry_point.load()
@@ -34,6 +34,20 @@ def discoverable_plugins() -> Dict[str, Any]:
         except (DistributionNotFound, ImportError):
             log.exception(f"Plugin {entry_point.name} not found")
     return discovered_plugins
+
+
+def get_debug_config(dpath: str = './'):
+    """ Get debug configuration
+
+    """
+    return {
+        'workdir': ub.ensuredir((dpath, 'work')),
+        'harness': 'local',
+        'protocol': 'ond',
+        "domain": "image_classification",
+        "test_ids": ["OND.1.1.1234"],
+        "novelty_detector_class": "MockDetector"
+    }
 
 
 class LaunchSailonProtocol(object):
@@ -101,9 +115,12 @@ class LaunchSailonProtocol(object):
 
         return working_folder, working_config_fp, privileged_config, config
 
-    def run_protocol(self, config: Dict[str, Any]) -> None:
+    def run_protocol(self, config: Dict[str, Any], extra_plugins: Dict = dict()) -> None:
         """Run the protocol by printout out the config.
-        Config passed in uses 3 parameters to control the launching of the protocols
+
+        Args:
+
+            Config passed in uses 3 parameters to control the launching of the protocols
             - protocol: either 'ond' or 'condda' to define which protocol to run
             - harness:  either 'local' or 'par' to define which harness to use
             - workdir: a directory to save all the information from the run including
@@ -111,27 +128,22 @@ class LaunchSailonProtocol(object):
                 - Output of algorithm
 
         Example:
+            >>> from sailon_tinker_launcher.main import *
             >>> dpath = ub.ensure_app_cache_dir('tinker/tests')
-            >>> config = {
-            >>>     'workdir': ub.ensuredir((dpath, 'work')),
-            >>>     'harness': 'local',
-            >>>     'protocol': 'ond',
-            >>> }
+            >>> config = get_debug_config()
             >>> self = LaunchSailonProtocol()
-            >>> import pytest
             >>> import sail_on
-            >>> with pytest.raises(sail_on.api.errors.ServerError):
-            >>>     self.run_protocol(config)
-            >>> work_dir = Path(dpath) / 'work' / '249431d0a18913f4'
-            >>> (work_dir / 'config.json').exists
+            >>> self.run_protocol(config)
+            >>> ub.delete(str(self.working_folder), verbose=True)
 
         """
 
         # Setup working folder and create new config for this run
-        working_folder, working_config_fp, privileged_config, config = self.setup_experiment(config)
+        self.working_folder, working_config_fp, privileged_config, config = self.setup_experiment(config)
 
         # Now experiment setup, start a new logger for this
-        fh = logging.FileHandler(working_folder / f'{datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")}.log')
+        fh = logging.FileHandler(
+            self.working_folder / f'{datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")}.log')
         fh.setLevel(logging.DEBUG)
         formatter = logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] - %(message)s')
         fh.setFormatter(formatter)
@@ -156,7 +168,8 @@ class LaunchSailonProtocol(object):
                                  f'Given harness "{privileged_config["harness"]}" ')
 
         # Get the plugins
-        plugins = discoverable_plugins()
+        plugins = ub.dict_union(discoverable_plugins('tinker'), extra_plugins)
+
         log.debug('Plugins found:')
         log.debug(plugins)
 

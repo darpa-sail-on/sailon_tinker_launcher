@@ -1,0 +1,8 @@
+# @package _group_
+protocol: 'ond'
+workdir: '/home/chris/code/sailon_tinker_launcher/workdir'
+harness: 'local'
+domain: image_classification
+test_ids:
+- OND.1.1.1234
+novelty_detector_class: "MockDetector"
