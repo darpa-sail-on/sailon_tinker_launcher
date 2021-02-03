@@ -72,7 +72,7 @@ class BaseProtocol(metaclass=abc.ABCMeta):
         # Validate the toolset is a dictionary or None
         if toolset and not isinstance(toolset, dict):
             log.error("toolset must be a dictionary")
-            exit(1)
+            raise TypeError("toolset must be a dictionary")
 
         # if the file exists, then load the algo from the file. If not, then
         # load the algo from plugin
@@ -81,7 +81,7 @@ class BaseProtocol(metaclass=abc.ABCMeta):
             log.info(f"{algotype} found in algorithms path, loading file")
             return self.load_from_file(algofile, toolset)
         else:
-            log.info(f"{algotype} not found in path, loading plugin")
+            log.info(f"{algotype} not found in path, looking for plugin now")
             return self.load_from_plugin(algotype, toolset)
 
     def load_from_file(self, algofile: str, toolset: Dict[str, Any]) -> BaseAlgorithm:
@@ -107,7 +107,7 @@ class BaseProtocol(metaclass=abc.ABCMeta):
                         algorithm = obj(toolset)
         else:
             log.error("Given algorithm is not a python file, other types not supported")
-            exit(1)
+            raise AttributeError("Given algorithm is not a python file, other types not supported")
 
         return algorithm
 
@@ -117,8 +117,8 @@ class BaseProtocol(metaclass=abc.ABCMeta):
         algorithm = self.discovered_plugins.get(algotype)
         if algorithm is None:
             log.error("Requested plugin not found")
-            exit(1)
+            raise AttributeError("Requested plugin not found")
         if not issubclass(algorithm, BaseAlgorithm):
             log.error(f"Requested plugin {algotype} is not an algorithm")
-            exit(1)
+            raise AttributeError(f"Requested plugin {algotype} is not an algorithm")
         return algorithm(toolset)
