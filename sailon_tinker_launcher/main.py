@@ -113,6 +113,7 @@ class LaunchSailonProtocol(object):
             f.write(jconfig)
         log.debug(f'Config: \n{jconfig}')
 
+
         return working_folder, working_config_fp, privileged_config, config
 
     def run_protocol(self, config: Dict[str, Any], extra_plugins: Dict = dict()) -> None:
@@ -134,7 +135,8 @@ class LaunchSailonProtocol(object):
             >>> self = LaunchSailonProtocol()
             >>> import sail_on
             >>> self.run_protocol(config)
-            >>> ub.delete(str(self.working_folder), verbose=True)
+            >>> assert(self.working_folder.exists())
+            >>> ub.delete(str(self.working_folder), verbose=False)
 
         """
 
