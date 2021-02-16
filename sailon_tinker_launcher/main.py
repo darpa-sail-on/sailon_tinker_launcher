@@ -84,7 +84,7 @@ class LaunchSailonProtocol(object):
         log.info(f'Folder {name} created for the following config')
         working_folder = Path(privileged_config['workdir'], name).expanduser().resolve()
         working_folder.mkdir(exist_ok=True, parents=True)
-        if config['save_dir'] == '{workdir.id}':
+        if 'save_dir' in config.keys() and config['save_dir'] == '{workdir.id}':
             config['save_dir'] = str(working_folder)
         config['detector_config']['csv_folder'] = str(
             working_folder / config['detector_config']['csv_folder']
