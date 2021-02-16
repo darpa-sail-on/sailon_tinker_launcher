@@ -1,0 +1,73 @@
+data:
+  iam:
+    # TODO These image paths will need modified to match user system. At least
+    # `data_path` needs to be uncommented and included. If image_root_dir is
+    # not included, then it must be passed as an argument to
+    # `HWRNoveltyDetector.feature_extraction()`. To clarify, that is the
+    # directory in which all the image files are contained.
+    #data_path: './file_ids.txt'
+    #image_root_dir: './round_1_gs1.2_states/'
+    labels: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/par_v1_iam_CRNN_char_set.tsv'
+model:
+  crnn:
+    metric: CER
+    init:
+      num_channels: 3
+      num_classes: 80
+      hidden_size: 256
+      input_height: 64
+      legacy: True
+    train:
+      # May be able to cut this from PAR eval version of config unless updates?
+      learning_rate: 0.01
+      batch_size: 1 # NOTE used 16 in training.
+      augmentation: False
+      blank: 0 # ~
+      unknown_idx: 4 # #
+      space_char: ' ' # 1
+      epochs: 100000
+      max_epochs_no_improvement: 200
+    eval:
+      batch_size: 1
+    load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/transcript_crnn_fold0_183.pt'
+  style: # the style recognition portion of the agent expecting HoOGs & MEVM
+    # The separate style tasks' MEVM params
+    writer_id:
+      init:
+        tailsize: 11423
+        distance_multiplier: 0.01
+        cover_threshold: 0.4
+        max_unknown: 1
+      detection_threshold: 0.7 # as thresh for all means.
+      load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/style_mevms/evm_5folds_train-0.tsv_writer_id_v2_mevm_obj.hdf5'
+    pen_pressure:
+      init:
+        tailsize: 7969
+        distance_multiplier: 0.01
+        cover_threshold: 0.9
+      load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/style_mevms/evm_5folds_train-0.tsv_pen_pressure_v2_mevm_obj.hdf5'
+    letter_size:
+      init:
+        tailsize: 8656
+        distance_multiplier: 0.01
+        cover_threshold: 0.3
+      load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/style_mevms/evm_5folds_train-0.tsv_letter_size_v2_mevm_obj.hdf5'
+    word_spacing:
+      init:
+        tailsize: 7309
+        distance_multiplier: 0.02
+        cover_threshold: 0.9
+      load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/style_mevms/evm_5folds_train-0.tsv_word_spacing_v2_mevm_obj.hdf5'
+    slant_angle:
+      init:
+        tailsize: 8722
+        distance_multiplier: 0.11
+        cover_threshold: 0.9
+      load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/style_mevms/evm_5folds_train-0.tsv_slant_angle_v2_mevm_obj.hdf5'
+    background_repr:
+      init:
+        tailsize: 4465
+        distance_multiplier: 0.01
+        cover_threshold: 0.9
+      load_path: '/data/christopher.funk/sail-on/models/hwr_models/round_1_gs1.2_states/style_mevms/evm_5folds_train-0.tsv_rep_v2_mevm_obj.hdf5'
+

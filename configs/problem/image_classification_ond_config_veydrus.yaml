@@ -1,5 +1,6 @@
+# @package _group_
 protocol: 'ond'
-workdir: 'workdir'
+workdir: '~/code/sailon_tinker_launcher/workdir'
 harness: 'par'
 domain: "image_classification"
 test_ids:
@@ -8,14 +9,14 @@ novelty_detector_class: "OND_12_With_Redlight"
 hints:
 - "red_light"
 use_feedback: "True"
-dataset_root: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/TA1/TA1-image-classification/dataset_v1"
+dataset_root: "/data/datasets/TA1-image-classification/dataset_v1"
 detector_config:
     efficientnet_params:
-        model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
+        model_path: "/data/christopher.funk/sail-on/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
         known_classes: 413
         image_size: 300
     evm_params:
-        model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/EVM_cosine_model_umd_b3_CC_tail40000_ct7_dm55.hdf5"
+        model_path: "/data/christopher.funk/sail-on/models/OND_12/EVM_cosine_model_umd_b3_CC_tail40000_ct7_dm55.hdf5"
         tailsize: 40000
         cover_threshold: 0.7
         distance_multiplier: 0.55
@@ -44,6 +45,3 @@ saved_attributes:
       - "Pr"
       - "P_max_known"
 save_dir: "{workdir.id}"
-defaults:
-    - hydra/job_logging: colorlog
-    - hydra/hydra_logging: colorlog

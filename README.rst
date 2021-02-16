@@ -33,15 +33,15 @@ For all installs, please run
    pip install -e .
 
 
-Ti install everything:
+This install everything:
 
-.. codeblock:: bash
+.. code-block:: bash
 
-  conda create -n sailon python=3.7 && conda activate sailon
-  conda install -y numpy scipy pytorch  torchvision torchaudio cudatoolkit=10.2 -c pytorch
-  python super_setup.py ensure
-  python super_setup.py develop
-  (cd ../evm_based_novelty_detector/timm/ && pip install -e .)
+   conda create -n sailon python=3.7 && conda activate sailon
+   conda install -y numpy scipy pytorch  torchvision torchaudio cudatoolkit=10.2 -c pytorch
+   python super_setup.py develop
+   (cd ../evm_based_novelty_detector/timm/ && pip install -e .)
+
 
 To Run
 --------
@@ -50,7 +50,8 @@ Tinker run command:
 
 .. code-block:: bash
 
-  tinker -c sailon_tinker_launcher/config.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem_configs/image_classification_ond_config.yaml sailon_tinker_launcher/tinker_launcher.py
+
 
 To change to a different config, copy the file `sailon_tinker_launcher/config.yaml`
 and make your changes there.  You can update the -c parameter to load you new configuration.
@@ -62,32 +63,67 @@ Hydra Run Command:
 
 .. code-block:: bash
 
-  python sailon_tinker_launcher/hydra_launcher.py
+  python hydra_launcher.py
+
 
 You can either pass the new config items by overwritting them, such as
 
 .. code-block:: bash
 
-  python sailon_tinker_launcher/hydra_launcher.py use_feedback=False
+  python hydra_launcher.py problem.use_feedback=False
 
-You can do multirun as well (look up hydra documentation: https://hydra.cc/docs/next/intro#multirun
-Or you can also create a new config (copying from `sailon_tinker_launcher/config.yaml`) and reference
+
+You can do multirun as well (look up hydra documentation: https://hydra.cc/docs/next/intro#multirun )
+
+For example, if you want to run multiple tests, you can use this where you can
+add to each list to run multiple in serial and separate the brackets to run in
+multiple tasks (can be mixed with the last type of override as well):
 
 .. code-block:: bash
 
-  python sailon_tinker_launcher/hydra_launcher.py --config-path <path to new config>
+  python hydra_launcher.py --multirun \
+         problem.test_ids=["OND.54012315.0900.abc"],["OND.54012315.0900.DEF"]
 
-Note: the path to the new config is relative to the same folder as hydra_launcher.py
+
+Another way, if you want to run different problem configs (in `configs/problem`) if
+you want to run different problem types or different protocols (probably if you have a lot of different parameters:
+
+.. code-block:: bash
+
+   python hydra_launcher.py --multirun \
+          problem=image_classification_condda_config,image_classification_ond_config
+
+
+If you want to use slurm to run it, just add `hydra/launcher=submitit_local` and
+check out these docs: https://hydra.cc/docs/plugins/submitit_launcher
+
+.. code-block:: bash
+
+  python hydra_launcher.py  --multirun \
+         problem.test_ids=["OND.54012315.0900.abc"],["OND.54012315.0900.ABC"] \
+         hydra/launcher=submitit_local
+
+
+You can create a config for your cluster as a new file in `configs/hydra/launcher` (see the one there for `veydrus`)
+
+.. code-block:: bash
+
+  python hydra_launcher.py  --multirun \
+         problem.test_ids=["OND.54012315.0900.abc"],["OND.54012315.0900.ABC"]  \
+         hydra/launcher=veydrus
+
+Note:  you need --multirun to use slurm launcher (otherwise it is just local)
 
 Configuration
 -------------
-The default configuration for this is shown in sailon-tinker-launcher/config.yaml.  The launching
+The default configuration for this is shown in the `configs/problem` folder.  The launching
 parameters that are the minimum necessary are as follows:
 - protocol: either 'ond' or 'condda' to define which protocol to run
 - harness:  either 'local' or 'par' to define which harness to use
 - workdir: a directory to save all the information from the run including
     - Config
     - Output of algorithm
+
 
 
 

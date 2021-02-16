@@ -1,0 +1,50 @@
+# @package _group_
+protocol: 'ond'
+workdir: '~/code/sailon_tinker_launcher/workdir'
+harness: 'par'
+domain: activity_recognition
+test_ids:
+  - OND.0.90001.2100554
+novelty_detector_class: gae_nd
+dataset_root: "/data/datasets/TA1-activity-recognition/all_videos"
+detector_config:
+  feature_extractor_params:
+    backbone_weight_path: '/data/christopher.funk/sail-on/models/graph-autoencoder/rgb_imagenet.pth'
+    name: i3d
+    arch: i3d-50
+    graph_weight_path: '/data/christopher.funk/sail-on/models/graph-autoencoder/TA2_acc1_checkpoint.pth.tar'
+    model_name: i3d
+    n_classes: 400
+    no_cuda: 'False'
+    hidden_dims:
+      - 512
+      - 128
+    hidden: 'True'
+    in_dim: 1024
+    num_heads:
+      - 4
+      - 1
+    sample_duration: 64
+    mode: feature
+    graph_classes: 88
+    feature_type: graph
+  evm_params:
+    weight_path:  '/data/christopher.funk/sail-on/models/graph-autoencoder/TA2_acc1_hidden_evm.hdf5'
+    number_of_unknown_to_crate_evm: 7
+  characterization_params:
+    clustering_type: FINCH
+    number_of_unknown_to_strat_clustering: 50
+  dataloader_params:
+    sample_size: 224
+    mean:
+      - 114.7748
+      - 107.7354
+      - 99.475
+    sample_duration: 64
+    batch_size: 1
+    n_threads: 6
+    n_classes: 88
+  csv_folder: activity_recognition
+  cores: 6
+  detection_threshold: 0.1
+

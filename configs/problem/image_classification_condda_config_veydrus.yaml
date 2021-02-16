@@ -1,0 +1,45 @@
+# @package _group_
+protocol: 'condda'
+workdir: '~/code/sailon_tinker_launcher/workdir'
+harness: 'par'
+domain: image_classification
+test_ids:
+- OND.54012315.0900.1239
+novelty_detector_class: CONDDA_12_With_Redlight
+hints:
+- red_light
+dataset_root: "/data/datasets/TA1-image-classification/dataset_v1"
+detector_config:
+  efficientnet_params:
+    model_path: "/data/christopher.funk/sail-on/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
+    known_classes: 413
+    image_size: 300
+  evm_params:
+    model_path: "/data/christopher.funk/sail-on/models/OND_12/EVM_cosine_model_umd_b3_CC_tail40000_ct7_dm55.hdf5"
+    tailsize: 40000
+    cover_threshold: 0.7
+    distance_multiplier: 0.55
+    unknown_distance_multiplier: 0.8
+    distance_function: cosine
+    mu_train: 1
+    sigma_train: 0.1872130436656377
+    KL_threshold: 8.55648487230666
+    known_threshold: 0.7
+    number_of_unknown_to_crate_evm: 10
+  characterization_param:
+    clustering_type: FINCH
+    number_of_unknown_to_strat_clustering: 100
+    alpha: 1
+    flag_only_evm: 1
+  dataloader_params:
+    batch_size: 100
+    num_workers: 20
+  csv_folder: 'condda_results'
+save_attributes: "True"
+saved_attributes:
+  FeatureExtraction:
+      - "FVs"
+      - "image_names"
+      - "Pr"
+      - "P_max_known"
+save_dir: "{workdir.id}"

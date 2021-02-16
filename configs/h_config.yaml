@@ -1,0 +1,4 @@
+defaults:
+    - hydra/job_logging: colorlog
+    - hydra/hydra_logging: colorlog
+    - problem: image_classification_condda_config
