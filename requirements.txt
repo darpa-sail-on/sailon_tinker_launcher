@@ -7,4 +7,3 @@ click>=7.1.2
 hydra-core>=1.0.5
 hydra-colorlog>=1.0.0
 hydra-submitit-launcher>=1.0.1
-dvc>=1.11.10
