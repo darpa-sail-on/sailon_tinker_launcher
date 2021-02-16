@@ -133,7 +133,6 @@ class LaunchSailonProtocol(object):
             >>> dpath = ub.ensure_app_cache_dir('tinker/tests')
             >>> config = get_debug_config()
             >>> self = LaunchSailonProtocol()
-            >>> import sail_on
             >>> self.run_protocol(config)
             >>> assert(self.working_folder.exists())
             >>> ub.delete(str(self.working_folder), verbose=False)
