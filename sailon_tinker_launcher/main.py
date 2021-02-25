@@ -100,11 +100,11 @@ class LaunchSailonProtocol(object):
         working_folder.mkdir(exist_ok=True, parents=True)
         if 'save_dir' in config.keys() and config['save_dir'] == '{workdir.id}':
             config['save_dir'] = str(working_folder)
-        config['detector_config']['csv_folder'] = str(
-            working_folder / config['detector_config']['csv_folder']
+        config['detectors']['csv_folder'] = str(
+            working_folder / config['detectors']['csv_folder']
         )
 
-        Path(config['detector_config']['csv_folder']).mkdir(exist_ok=True, parents=True)
+        Path(config['detectors']['csv_folder']).mkdir(exist_ok=True, parents=True)
         jconfig = json.dumps(config, indent=4)
 
         # 4 save the config into the new folder.
@@ -158,12 +158,12 @@ class LaunchSailonProtocol(object):
         if privileged_config['harness'] == 'local':
             log.info('Loading Local Harness')
             harness = LocalInterface('configuration.json', harnness_config_path)
-            harness.result_directory = config['detector_config']['csv_folder']
-            harness.file_provider.results_folder = config['detector_config']['csv_folder']
+            harness.result_directory = config['detectors']['csv_folder']
+            harness.file_provider.results_folder = config['detectors']['csv_folder']
         elif privileged_config['harness'] == 'par':
             log.info('Loading Par Harness')
             harness = ParInterface('configuration.json', harnness_config_path)
-            harness.folder = config['detector_config']['csv_folder']
+            harness.folder = config['detectors']['csv_folder']
         else:
             raise AttributeError(f'Valid harnesses "local" or "par".  '
                                  f'Given harness "{privileged_config["harness"]}" ')
