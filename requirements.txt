@@ -8,3 +8,4 @@ hydra-core>=1.0.5
 hydra-colorlog>=1.0.0
 hydra-submitit-launcher>=1.0.1
 dvc>=1.11.10
+smqtk-core>=0.15.0
