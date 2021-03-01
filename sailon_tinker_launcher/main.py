@@ -2,6 +2,7 @@
 
 import logging
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Tuple
@@ -40,13 +41,28 @@ def get_debug_config(dpath: str = './'):
     """ Get debug configuration
 
     """
+    import sail_on_client
+    data_dir = str(Path(f"{Path(os.path.dirname(sail_on_client.__file__)).parent}/tests/data"))
+    gt_dir = str(Path(f"{data_dir}/OND/image_classification"))
+    gt_config = str(Path(f"{gt_dir}/image_classification.json"))
     return {
         'workdir': ub.ensuredir((dpath, 'work')),
         'harness': 'local',
         'protocol': 'ond',
-        "domain": "image_classification",
-        "test_ids": ["OND.1.1.1234"],
-        "novelty_detector_class": "MockDetector"
+        'domain': 'image_classification',
+        'test_ids': ['OND.1.1.1234'],
+        'detectors': {
+            'has_baseline': False,
+            'has_reaction_baseline': False,
+            'detector_configs': {'MockDetector': {}},
+            'csv_folder': '',
+        },
+        'harness_config': {
+            'url': 'http://3.32.8.161:5001/',
+            'data_dir': data_dir,
+            'gt_dir': gt_dir,
+            'gt_config': gt_config
+        }
     }
 
 
@@ -173,7 +189,6 @@ class LaunchSailonProtocol(object):
 
         log.debug('Plugins found:')
         log.debug(plugins)
-
         # Load the protocol
         if privileged_config['protocol'] == 'ond':
             log.info('Running OND Protocol')
