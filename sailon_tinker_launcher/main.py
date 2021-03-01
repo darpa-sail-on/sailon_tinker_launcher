@@ -120,13 +120,15 @@ class LaunchSailonProtocol(object):
         """Run the protocol by printout out the config.
 
         Args:
-
-            Config passed in uses 3 parameters to control the launching of the protocols
+            config: passed in uses 3 parameters to control the launching of the protocols
             - protocol: either 'ond' or 'condda' to define which protocol to run
             - harness:  either 'local' or 'par' to define which harness to use
             - workdir: a directory to save all the information from the run including
                 - Config
                 - Output of algorithm
+            extra_plugins:  Dict of plugins to append to the plugins detected so that you can pass an
+                algorithm direct in the function call like for ipython where you defined it in the
+                code before calling this function.
 
         Example:
             >>> from sailon_tinker_launcher.main import *
