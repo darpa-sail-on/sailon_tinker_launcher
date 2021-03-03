@@ -10,20 +10,11 @@ Protocols for using new Tinker or Hydra with current SAIL-ON implementation
 
 
 
-Install
+Step 1: Install
 --------
 This requires installing sail-on-client, hydra, and tinker.  If you are launching with either
 hydra or tinker but not both, you only need to install one of them.
 
-Sail-on-client install instructions here: https://gitlab.kitware.com/darpa-sail-on/sail-on-client
-- Current branch: better_logging
-
-Tinker install instructions here: https://github.com/tinker-engine/tinker-engine
-- Current Branch: configuration-handling
-
-Hydra install
-
-`pip install hydra-core hydra_colorlog --upgrade`
 
 For all installs, please run
 
@@ -42,8 +33,17 @@ This install everything:
    python super_setup.py develop
    (cd ../evm_based_novelty_detector/timm/ && pip install -e .)
 
+Note, this assumes you have ssh key from your computer to https://kwgitlab.kitware.com/ and https://gitlab.kitware.com/.
+If you don't follow the instructions
 
-To Run
+-------------------
+Installing Models
+-------------------
+
+Sail-on-client install instructions here for each problem: https://gitlab.kitware.com/darpa-sail-on/sail-on-client
+
+
+Step 2:  Run
 --------
 From the home directory:
 Tinker run command:
@@ -114,7 +114,7 @@ You can create a config for your cluster as a new file in `configs/hydra/launche
 
 Note:  you need --multirun to use slurm launcher (otherwise it is just local)
 
-Configuration
+Step 3: Configuration for Your Run
 -------------
 The default configuration for this is shown in the `configs/problem` folder.  The launching
 parameters that are the minimum necessary are as follows:
