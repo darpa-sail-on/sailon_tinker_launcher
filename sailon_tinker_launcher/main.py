@@ -128,11 +128,9 @@ class LaunchSailonProtocol(object):
         with open(working_config_fp, 'w') as f:
             f.write(jconfig)
         log.debug(f'Config: \n{jconfig}')
-
-
         return working_folder, working_config_fp, privileged_config, config
 
-    def run_protocol(self, config: Dict[str, Any], extra_plugins: Dict = dict()) -> None:
+    def run_protocol(self, config: Dict[str, Any], extra_plugins: Dict[str, Any] = dict()) -> None:
         """Run the protocol by printout out the config.
 
         Args:
@@ -173,12 +171,12 @@ class LaunchSailonProtocol(object):
         harnness_config_path = Path(protocol_folder.__file__).parent
         if privileged_config['harness'] == 'local':
             log.info('Loading Local Harness')
-            harness = LocalInterface('configuration.json', harnness_config_path)
+            harness = LocalInterface('configuration.json', str(harnness_config_path))
             harness.result_directory = config['detectors']['csv_folder']
             harness.file_provider.results_folder = config['detectors']['csv_folder']
         elif privileged_config['harness'] == 'par':
             log.info('Loading Par Harness')
-            harness = ParInterface('configuration.json', harnness_config_path)
+            harness = ParInterface('configuration.json', str(harnness_config_path))
             harness.folder = config['detectors']['csv_folder']
         else:
             raise AttributeError(f'Valid harnesses "local" or "par".  '
