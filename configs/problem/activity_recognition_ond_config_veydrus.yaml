@@ -1,13 +1,14 @@
 # @package _group_
 protocol: 'ond'
-workdir: ''
+workdir: '/home/chris/code/sailon_tinker_launcher/workdir'
 harness: 'local'
 domain: activity_recognition
 test_ids:
   - OND.10.90001.2100554
 dataset_root: ""
 detectors:
-  has_reaction_baseline: 'True'
+  has_baseline: 'False'
+  has_reaction_baseline: 'False'
   baseline_class: 'baseline_i3d'
   csv_folder: activity_recognition
   cores: 6
