@@ -8,6 +8,7 @@ test_ids:
 dataset_root: ""
 detectors:
   has_reaction_baseline: 'True'
+  has_baseline: 'False'
   baseline_class: 'baseline_i3d'
   csv_folder: activity_recognition
   cores: 6
