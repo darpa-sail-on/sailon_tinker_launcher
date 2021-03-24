@@ -6,14 +6,22 @@ domain: transcripts
 dataset_root: '/data/datasets/TA1-transcription/images/'
 test_ids:
 - OND.0.90001.8714062
-novelty_detector_class: HWRNoveltyDetector
-detector_config:
-  config_file_path: "/home/khq.kitware.com/christopher.funk/code/sailon_tinker_launcher/configs/extra_configs/hwr_config.yaml"
-  cores: 1
-  device: gpu
-  csv_folder: ''
-  img_height: 64
-  hogs_ppc: 16
-  unknown_threshold: 0.5
-  crnn_pass: []
-  save_header_csv: 0
+detectors:
+  has_reaction_baseline: 'False'
+  has_baseline: 'False'
+  detector_configs:
+    HWRNoveltyDetector:
+      config_file_path: "/home/khq.kitware.com/christopher.funk/code/sailon_tinker_launcher/configs/extra_configs/hwr_config.yaml"
+      cores: 1
+      device: gpu
+      csv_folder: ''
+      img_height: 64
+      hogs_ppc: 16
+      unknown_threshold: 0.5
+      crnn_pass: []
+      save_header_csv: 0
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
