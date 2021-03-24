@@ -10,32 +10,36 @@ hints:
 - "red_light"
 use_feedback: "True"
 dataset_root: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/TA1/TA1-image-classification/dataset_v1"
-detector_config:
-    efficientnet_params:
-        model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
-        known_classes: 413
-        image_size: 300
-    evm_params:
-        model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/EVM_cosine_model_umd_b3_CC_tail40000_ct7_dm55.hdf5"
-        tailsize: 40000
-        cover_threshold: 0.7
-        distance_multiplier: 0.55
-        distance_function: "cosine"
-        mu_train: 1.0
-        sigma_train: 0.1872130436656377
-        KL_threshold: 7.13040406025555
-        known_threshold: 0.7
-    dataloader_params:
-        batch_size: 128
-        num_workers: 20
-    csv_folder: "ond_result"
-    feedback_params:
-        first_budget: 10
-        income_per_batch: 10
-        maximum_budget: 10
-    classification_params:
-        alpha: 1.0
-        flag_only_evm: 1
+detectors:
+  has_reaction_baseline: 'False'
+  has_baseline: 'False'
+  detector_configs:
+    OND_12_With_Redlight
+      efficientnet_params:
+          model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
+          known_classes: 413
+          image_size: 300
+      evm_params:
+          model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/EVM_cosine_model_umd_b3_CC_tail40000_ct7_dm55.hdf5"
+          tailsize: 40000
+          cover_threshold: 0.7
+          distance_multiplier: 0.55
+          distance_function: "cosine"
+          mu_train: 1.0
+          sigma_train: 0.1872130436656377
+          KL_threshold: 7.13040406025555
+          known_threshold: 0.7
+      dataloader_params:
+          batch_size: 128
+          num_workers: 20
+      csv_folder: "ond_result"
+      feedback_params:
+          first_budget: 10
+          income_per_batch: 10
+          maximum_budget: 10
+      classification_params:
+          alpha: 1.0
+          flag_only_evm: 1
 save_elementwise: "True"
 save_attributes: "True"
 saved_attributes:
@@ -45,3 +49,8 @@ saved_attributes:
       - "Pr"
       - "P_max_known"
 save_dir: "{workdir.id}"
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
