@@ -5,10 +5,10 @@ harness: 'local'
 domain: activity_recognition
 test_ids:
   - OND.10.90001.2100554
-dataset_root: ""
+dataset_root: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/TA1/TA1-Activity-Recognition/all_videos/"
 detectors:
-  has_reaction_baseline: 'True'
   has_baseline: 'False'
+  has_reaction_baseline: 'False'
   baseline_class: 'baseline_i3d'
   csv_folder: activity_recognition
   cores: 6
@@ -16,10 +16,10 @@ detectors:
   detector_configs:
     gae_kl_nd:
       feature_extractor_params:
-        backbone_weight_path: ''
+        backbone_weight_path: '/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/graph_autoencoder/rgb_imagenet.pth'
         name: i3d
         arch: i3d-50
-        graph_weight_path: ''
+        graph_weight_path: '/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/graph_autoencoder/TA2_acc1_checkpoint.pth.tar'
         model_name: i3d
         n_classes: 400
         no_cuda: 'False'
@@ -41,7 +41,7 @@ detectors:
         sigma_train: 0.1242729408792351
         KL_threshold: 5.365822113508410
       evm_params:
-        weight_path:  ''
+        weight_path:  '/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/graph_autoencoder/TA2_acc1_hidden_evm.hdf5'
         number_of_unknown_to_crate_evm: 7
       characterization_params:
         clustering_type: FINCH
@@ -58,7 +58,7 @@ detectors:
         n_classes: 88
     baseline_i3d:
       feature_extractor_params:
-        backbone_weight_path: ''
+        backbone_weight_path: '/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/graph_autoencoder/save_best.pth'
         name: i3d
         arch: i3d-50
         model_name: i3d
@@ -88,6 +88,6 @@ detectors:
         n_classes: 88
 harness_config:
   url: 'http://3.32.8.161:5001/'
-  data_dir: ''
-  gt_dir: ''
-  gt_config: ''
+  data_dir: '/home/chris/code/sail-on-client/tests/data/OND/activity_recognition'
+  gt_dir: '/home/chris/code/sail-on-client/tests/data/OND/activity_recognition'
+  gt_config: '/home/chris/code/sail-on-client/tests/data/OND/activity_recognition/activity_recognition.json'

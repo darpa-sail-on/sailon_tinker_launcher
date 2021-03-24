@@ -116,7 +116,7 @@ class BaseProtocol(metaclass=abc.ABCMeta):
 
         algorithm = self.discovered_plugins.get(algotype)
         if algorithm is None:
-            log.error("Requested plugin not found")
+            log.error(f"Requested plugin not found '{algotype}'")
             raise AttributeError("Requested plugin not found")
         if not issubclass(algorithm, BaseAlgorithm):
             log.error(f"Requested plugin {algotype} is not an algorithm")
