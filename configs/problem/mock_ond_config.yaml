@@ -5,4 +5,8 @@ harness: 'local'
 domain: image_classification
 test_ids:
 - OND.1.1.1234
-novelty_detector_class: "MockDetector"
+detectors:
+  has_reaction_baseline: 'False'
+  has_baseline: 'False'
+  detector_configs:
+    MockDetector
