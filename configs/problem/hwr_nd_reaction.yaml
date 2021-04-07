@@ -1,0 +1,35 @@
+# @package _group_
+protocol: 'ond'
+workdir: ''
+harness: 'local'
+domain: transcripts
+dataset_root: ''
+test_ids:
+- OND.0.90001.8714062
+detectors:
+  has_reaction_baseline: True
+  has_baseline: False
+  csv_folder: "writer_identifier"
+  baseline_class: "BaselineWriterIdentifier"
+  detector_configs:
+    HWRNoveltyDetector:
+      config_file_path: ""
+      cores: 1
+      device: gpu
+      img_height: 64
+      hogs_ppc: 16
+      unknown_threshold: 0.5
+      crnn_pass: []
+      save_header_csv: 0
+    BaselineWriterIdentifier:
+      checkpoint_path: ""
+      crop_size: 113
+      batch_size: 32
+      num_workers: 1
+      num_classes: 50
+      use_gpu: False
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
