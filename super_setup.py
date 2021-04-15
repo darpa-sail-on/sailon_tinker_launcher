@@ -837,7 +837,7 @@ DEVEL_REPOS = [
         'remotes': {'origin': 'https://github.com/tinker-engine/tinker-engine.git'},
     },
     {
-        'name': 'sail-on-client', 'branch': 'better_logging', 'remote': 'origin',
+        'name': 'sail-on-client', 'branch': 'fix-local-feedback', 'remote': 'origin',
         'remotes': {'origin': 'git@gitlab.kitware.com:darpa-sail-on/sail-on-client.git'},
     },
     {

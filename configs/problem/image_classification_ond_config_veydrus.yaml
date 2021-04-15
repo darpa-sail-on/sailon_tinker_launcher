@@ -11,6 +11,7 @@ hints:
 use_feedback: "True"
 dataset_root: "/data/datasets/TA1-image-classification/dataset_v1"
 detector_config:
+  OND_12_With_Redlight
     efficientnet_params:
         model_path: "/data/christopher.funk/sail-on/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
         known_classes: 413
