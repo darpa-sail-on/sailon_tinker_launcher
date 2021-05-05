@@ -109,7 +109,7 @@ class LaunchSailonProtocol(object):
 
         # 3 hash the dictionary to create temp name create the folder
         ub.util_hash._HASHABLE_EXTENSIONS._register_agressive_extensions()
-        name = ub.hash_data(config, hasher='xxh64')
+        name = ub.hash_data(config)
 
         log.info(f'Folder {name} created for the following config')
         working_folder = Path(privileged_config['workdir'], name).expanduser().resolve()
