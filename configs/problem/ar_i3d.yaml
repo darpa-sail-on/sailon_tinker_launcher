@@ -1,0 +1,57 @@
+# @package _group_
+protocol: 'ond'
+workdir: ''
+harness: 'local'
+domain: activity_recognition
+test_ids:
+  - OND.0.90001.2100554
+dataset_root: ""
+use_saved_features: True
+use_consolidated_features: True
+save_dir: "i3d_self_eval"
+is_eval_enabled: False
+detectors:
+  has_baseline: False
+  has_reaction_baseline: False
+  csv_folder: activity_recognition
+  cores: 6
+  detection_threshold: 0.1
+  detector_configs:
+    i3d:
+      feature_extractor_params:
+        num_classes: 88
+        finetune_num_classes: 88
+        dropout_keep_prob: 1.0
+        checkpoint_path: ""
+        device: "cuda:0"
+        model: "i3d"
+      kl_params:
+        window_size: 100
+        mu_train: 1.0
+        sigma_train: 0.19494647
+        KL_threshold: 1.987203856792203
+      evm_params:
+        model_path:  ''
+        distance_function: 'euclidean'
+        gpu_idx: 0
+      characterization_params:
+        clustering_type: FINCH
+        number_of_unknown_to_strat_clustering: 50
+      dataloader_params:
+        norm_value: 255.0
+        no_dataset_mean: False
+        no_dataset_std: False
+        spatial_size: 224
+        sample_duration: 16
+        mean:
+          - 101.00131
+          - 97.3644226
+          - 89.42114168
+        batch_size: 1
+        n_threads: 6
+        n_classes: 88
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
