@@ -31,8 +31,9 @@ detectors:
         sigma_train: 0.1242729408792351
         KL_threshold: 5.365822113508410
       evm_params:
-        weight_path:  ''
-        number_of_unknown_to_crate_evm: 7
+        model_path:  ''
+        distance_function: 'euclidean'
+        gpu_idx: 0
       characterization_params:
         clustering_type: FINCH
         number_of_unknown_to_strat_clustering: 50
