@@ -14,7 +14,7 @@ detectors:
   cores: 6
   detection_threshold: 0.1
   detector_configs:
-    CONDDA_12_With_Redlight
+    CONDDA_12_With_Redlight:
       efficientnet_params:
         model_path: "/mnt/3bcbbdb5-8833-4d40-a51a-7fca7f39ec24/data2/sailon_data/models/OND_12/trained_efficientnet_b3_CC.pth.tar"
         known_classes: 413
