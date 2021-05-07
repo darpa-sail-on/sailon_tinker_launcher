@@ -1,0 +1,51 @@
+# @package _group_
+protocol: 'ond'
+workdir: '/home/ameya/code/sail-on-project/sailon_tinker_launcher/workdir'
+harness: 'local'
+domain: "image_classification"
+test_ids:
+- "OND.54011215.0000.1236"
+use_feedback: True
+is_eval_enabled: False
+dataset_root: "/home/ameya/data/TA1-image-classification/dataset_v1"
+detectors:
+  has_reaction_baseline: True
+  has_baseline: False
+  csv_folder: image_classification
+  detector_configs:
+    OND_18_Without_Redlight:
+      cnn_params:
+          model_path: "/home/ameya/models/evm-based-novelty-detector/trained_f1_umd_464.pth"
+          known_classes: 413
+          known_unknown_classes: 51
+          image_size: 320
+      evm_params:
+         model_path: "/home/ameya/models/evm-based-novelty-detector/evm_cosine_F1_umd_464_tail_40000_ct_0.8_dm_0.65.pkl"
+         tail_size: 40000
+         cover_threshold: 0.8
+         distance_multiplier: 0.65
+         distance_function: "cosine"
+         chunk_size: 200
+         gpu_list:
+           - 0
+           - 1
+         mu_train: 1.0
+         sigma_train: 0.028588828
+         KL_threshold: 62.855897282606946
+         threshold_evm: 0.5
+      dataloader_params:
+          batch_size: 100
+          num_workers: 0
+      feedback_params:
+          first_budget: 10
+          income_per_batch: 10
+          maximum_budget: 10
+  save_elementwise: False
+  save_attributes: False
+  use_saved_attributes: False
+save_dir: "{workdir.id}"
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
