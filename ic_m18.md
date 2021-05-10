@@ -35,6 +35,7 @@
   ```
     cd ../evm_based_novelty_detector
     pip install -r requirements.txt
+    pip install -e timm
     pip install -e .
   ```
 
