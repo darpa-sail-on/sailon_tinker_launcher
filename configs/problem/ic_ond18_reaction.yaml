@@ -1,0 +1,64 @@
+# @package _group_
+protocol: 'ond'
+workdir: ''
+harness: 'local'
+domain: "image_classification"
+test_ids:
+- "OND.54011215.0000.1236"
+hints:
+- "red_light"
+use_feedback: True
+is_eval_enabled: True
+is_eval_roundwise_enabled: True
+dataset_root: ""
+detectors:
+  has_reaction_baseline: True
+  has_baseline: False
+  csv_folder: image_classification
+  baseline_class: "BaselineImageClassifier"
+  detector_configs:
+    BaselineImageClassifier:
+      model_name: "resnet50"
+      checkpoint_path: ""
+      image_size: 256
+      crop_size: 224
+      batch_size: 100
+      num_workers: 6
+      num_classes: 413
+      use_gpu: True
+    OND_18_With_Redlight:
+      cnn_params:
+          model_path: ""
+          known_classes: 413
+          known_unknown_classes: 51
+          image_size: 320
+      evm_params:
+         model_path: ""
+         tail_size: 40000
+         cover_threshold: 0.8
+         distance_multiplier: 0.65
+         distance_function: "cosine"
+         chunk_size: 200
+         gpu_list:
+           - 0
+           - 1
+         mu_train: 1.0
+         sigma_train: 0.028588828
+         KL_threshold: 62.855897282606946
+         threshold_evm: 0.5
+      dataloader_params:
+          batch_size: 100
+          num_workers: 6
+      feedback_params:
+          first_budget: 10
+          income_per_batch: 10
+          maximum_budget: 10
+  save_elementwise: False
+  save_attributes: False
+  use_saved_attributes: False
+save_dir: "{workdir.id}"
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
