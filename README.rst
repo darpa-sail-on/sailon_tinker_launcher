@@ -8,7 +8,13 @@ Protocols for using new Tinker or Hydra with current SAIL-ON implementation
 * Free software: Apache Software License 2.0
 * Documentation: Compile Seperately... still in progress
 
+Month 18 Evaluation Instructions
+--------------------------------
 
+1. `Image Classification <ic_m18.md>`_
+
+.. warning::
+    The documentation underneath this section is out of date please ignore it.
 
 Step 1: Install
 --------
