@@ -56,12 +56,12 @@
 2. Modify problem configs
   Set the following variables in sailon_tinker_launcher/configs/problem/ic_ond18.yaml
   and sailon_tinker_launcher/configs/problem/ic_ond18.yaml
-  1. workdir: path to directory where all artifacts for the run are stored
-  2. harness: Harness used for experiment (choices: local/par)
-  3. test_ids: List of tests
-  4. dataset_root: Root directory for images
-  5. model_path (cnn_params): Path to the feature extractor model
-  6. model_path (evm_params): Path to the evm model
+    1. workdir: path to directory where all artifacts for the run are stored
+    2. harness: Harness used for experiment (choices: local/par)
+    3. test_ids: List of tests
+    4. dataset_root: Root directory for images
+    5. model_path (cnn_params): Path to the feature extractor model
+    6. model_path (evm_params): Path to the evm model
 
 3. Setup cluster config
   Create a configuration for the cluster that the job would execute on in
