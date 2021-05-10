@@ -1,6 +1,6 @@
 # @package _group_
 protocol: 'ond'
-workdir: '/home/ameya/code/sail-on-project/sailon_tinker_launcher/workdir'
+workdir: ''
 harness: 'local'
 domain: "image_classification"
 test_ids:
@@ -9,7 +9,7 @@ hints:
 - "red_light"
 use_feedback: True
 is_eval_enabled: False
-dataset_root: "/home/ameya/data/TA1-image-classification/dataset_v1"
+dataset_root: ""
 detectors:
   has_reaction_baseline: False
   has_baseline: False
@@ -17,12 +17,12 @@ detectors:
   detector_configs:
     OND_18_With_Redlight:
       cnn_params:
-          model_path: "/home/ameya/models/evm-based-novelty-detector/trained_f1_umd_464.pth"
+          model_path: ""
           known_classes: 413
           known_unknown_classes: 51
           image_size: 320
       evm_params:
-         model_path: "/home/ameya/models/evm-based-novelty-detector/evm_cosine_F1_umd_464_tail_40000_ct_0.8_dm_0.65.pkl"
+         model_path: ""
          tail_size: 40000
          cover_threshold: 0.8
          distance_multiplier: 0.65
