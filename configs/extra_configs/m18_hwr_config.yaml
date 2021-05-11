@@ -26,26 +26,38 @@ model:
   style: # the style recognition portion of the agent expecting HoOGs & MEVM
     # The separate style tasks' MEVM params
     writer_id:
+      max_unknown: 1
+      detection_threshold: 0.0
       distance_function: cosine
       num_known_classes: 50
       model_path: './m18_hwr_states/style_mevms/evm_writer_m18.pkl'
     pen_pressure:
+      max_unknown: 1
+      detection_threshold: 0.0
       distance_function: cosine
       num_known_classes: 3
       model_path: './m18_hwr_states/style_mevms/evm_imbal_pen_pressure_m18.pkl'
     letter_size:
+      max_unknown: 1
+      detection_threshold: 0.0
       distance_function: cosine
       num_known_classes: 3
       model_path: './m18_hwr_states/style_mevms/evm_imbal_letter_size_m18.pkl'
     word_spacing:
+      max_unknown: 1
+      detection_threshold: 0.0
       distance_function: cosine
       num_known_classes: 3
       model_path: './m18_hwr_states/style_mevms/evm_imbal_word_spacing_m18.pkl'
     slant_angle:
+      max_unknown: 1
+      detection_threshold: 0.0
       distance_function: cosine
       num_known_classes: 4
       model_path: './m18_hwr_states/style_mevms/evm_imbal_slant_angle_m18.pkl'
     appearance:
+      max_unknown: 1
+      detection_threshold: 0.0
       distance_function: cosine
       num_known_classes: 5
       model_path: './m18_hwr_states/style_mevms/evm_imbal_appearance_m18.pkl'
