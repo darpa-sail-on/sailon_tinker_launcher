@@ -45,7 +45,7 @@ detectors:
   use_saved_attributes: False
 save_dir: "{workdir.id}"
 harness_config:
-  url: 'http://3.32.8.161:5001/'
+  api_url: 'http://3.32.8.161:5001/'
   data_dir: ''
   gt_dir: ''
   gt_config: ''
