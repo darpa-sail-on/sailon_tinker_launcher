@@ -17,11 +17,11 @@
 2. Checkout branches from different repositories
   ```
     cd sail-on-client
-    git checkout fix-characterization
+    git checkout update-condda
     cd ../evm_based_novelty_detector
     git checkout add-eval-18-adapters
     cd ../sailon_tinker_launcher
-    git checkout add-ond18-configs
+    git checkout add-condda-18-configs
   ```
 
 3. Create virtual environment for sail-on-client
@@ -48,26 +48,28 @@
 
 ## Running Algorithms with Multirun and Submitit
 
-1. Download the feature extractor and evm model using
+1. Download the feature extractor, evm model and known features using
   ```
   wget https://vast.uccs.edu/~mjafarzadeh/trained_f1_umd_464.pth
   wget https://vast.uccs.edu/~mjafarzadeh/evm_cosine_F1_umd_464_tail_40000_ct_0.8_dm_0.65.pkl
+  wget https://vast.uccs.edu/~mjafarzadeh/feature_F1_umd_464_known_train.npy
   ```
 
 2. Modify problem configs
-  Set the following variables in sailon_tinker_launcher/configs/problem/ic_ond18.yaml
-  and sailon_tinker_launcher/configs/problem/ic_ond18.yaml
+  Set the following variables in sailon_tinker_launcher/configs/problem/ic_condda18.yaml
+  and sailon_tinker_launcher/configs/problem/ic_condda18_wo_redlight.yaml
     1. workdir: path to directory where all artifacts for the run are stored
     2. harness: Harness used for experiment (choices: local/par)
     3. test_ids: List of tests
     4. dataset_root: Root directory for images
     5. model_path (cnn_params): Path to the feature extractor model
     6. model_path (evm_params): Path to the evm model
+    7. feature_known_path (evm_params): Path to the known features downloaded in previous step
 
 3. Without hydra
   ```
-  tinker -c configs/problem/local_configs/ic_without_rd_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
-  tinker -c configs/problem/local_configs/ic_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/ic_conda18.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/ic_conda18_wo_redlight.yaml sailon_tinker_launcher/tinker_launcher.py
   ```
 
 3. Setup cluster config
@@ -77,10 +79,10 @@
 
 4. Launch the configs using multirun
   ```
-    python hydra_launcher.py --multirun problem=ic_without_rd_ond18,ic_ond18
+    python hydra_launcher.py --multirun problem=ic_conda18_wo_redlight,ic_conda18
   ```
 
 5. Launch the configs using SLURM
   ```
-  python hydra_launcher.py --multirun problem=ic_without_rd_ond18,ic_ond18 hydra/launcher=submitit_slurm
+  python hydra_launcher.py --multirun problem=ic_conda18_wo_redlight,ic_condda18 hydra/launcher=submitit_slurm
   ```
