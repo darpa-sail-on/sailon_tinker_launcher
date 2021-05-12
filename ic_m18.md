@@ -38,6 +38,14 @@
     pip install -e timm
     pip install -e .
   ```
+  Note: If your cuda version is different from the cuda supported by torch present
+  on pypi, please uninstall torch and torchvision  and reinstall it from
+  https://download.pytorch.org/whl/torch_stable.html using
+  ```
+    pip uninstall torch torchvision
+    pip install torch==1.8.1+<cuda_version> torchvision==0.9.1+<cuda_version> -f https://download.pytorch.org/whl/torch_stable.html
+  ```
+  where `<cuda_version>` is the cuda version that you are using on your machine
 
 5. Install sailon_tinker_launcher
   ```
