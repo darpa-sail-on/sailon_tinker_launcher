@@ -12,7 +12,6 @@ detectors:
   has_reaction_baseline: 'False'
   has_baseline: 'False'
   cores: 6
-  detection_threshold: 0.1
   detector_configs:
     CONDDA_18_With_Redlight:
       cnn_params:
