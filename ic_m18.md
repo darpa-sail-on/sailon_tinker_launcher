@@ -4,11 +4,11 @@
 1. Clone the following repositories
   ```
       git clone https://github.com/tinker-engine/tinker-engine.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/sail-on-api.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/evm_based_novelty_detector.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/sail-on-client.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/Sail_On_Evaluate.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/sailon_tinker_launcher.git
+      git clone https://github.com/darpa-sail-on/sail-on-api.git
+      git clone https://github.com/darpa-sail-on/evm_based_novelty_detector.git
+      git clone https://github.com/darpa-sail-on/sail-on-client.git
+      git clone https://github.com/darpa-sail-on/Sail_On_Evaluate.git
+      git clone https://github.com/darpa-sail-on/sailon_tinker_launcher.git
   ```
    This would create tinker-engine, sail-on-api, evm_based_novelty_detector,
    sailon_tinker_launcher, Sail_On_Evaluate and sail-on-client directories
@@ -17,7 +17,7 @@
 2. Checkout branches from different repositories
   ```
     cd sail-on-client
-    git checkout remove-algorithm-dependencies
+    git checkout fix-characterization
     cd ../evm_based_novelty_detector
     git checkout add-eval-18-adapters
     cd ../sailon_tinker_launcher
@@ -63,6 +63,12 @@
     4. dataset_root: Root directory for images
     5. model_path (cnn_params): Path to the feature extractor model
     6. model_path (evm_params): Path to the evm model
+
+3. Without hydra
+  ```
+  tinker -c configs/problem/local_configs/ic_without_rd_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/local_configs/ic_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
+  ```
 
 3. Setup cluster config
   Create a configuration for the cluster that the job would execute on in
