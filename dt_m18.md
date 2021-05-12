@@ -4,12 +4,12 @@
 1. Clone the following repositories
   ```
       git clone https://github.com/tinker-engine/tinker-engine.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/sail-on-api.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/evm_based_novelty_detector.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/hwr_novelty_detector.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/sail-on-client.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/Sail_On_Evaluate.git
-      git clone https://gitlab.kitware.com/darpa-sail-on/sailon_tinker_launcher.git
+      git clone https://github.com/darpa-sail-on/sail-on-api.git
+      git clone https://github.com/darpa-sail-on/evm_based_novelty_detector.git
+      git clone https://github.com/darpa-sail-on/hwr_novelty_detector.git
+      git clone https://github.com/darpa-sail-on/sail-on-client.git
+      git clone https://github.com/darpa-sail-on/Sail_On_Evaluate.git
+      git clone https://github.com/darpa-sail-on/sailon_tinker_launcher.git
   ```
    This would create tinker-engine, sail-on-api, evm_based_novelty_detector,
    sailon_tinker_launcher, hwr_novelty_detector, Sail_On_Evaluate and sail-on-client
@@ -18,7 +18,7 @@
 2. Checkout branches from different repositories
   ```
     cd sail-on-client
-    git checkout fix-ndp
+    git checkout fix-characterization
   ```
 
 3. Create virtual environment for sail-on-client
