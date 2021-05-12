@@ -1,0 +1,69 @@
+data:
+  iam:
+    labels: './m18_hwr_states/par_v1_iam_CRNN_char_set.tsv'
+model:
+  crnn:
+    metric: CER
+    init:
+      num_channels: 3
+      num_classes: 80
+      hidden_size: 256
+      input_height: 64
+      legacy: True
+    train:
+      # May be able to cut this from PAR eval version of config unless updates?
+      learning_rate: 0.01
+      batch_size: 1 # NOTE used 16 in training.
+      augmentation: False
+      blank: 0 # ~
+      unknown_idx: 4 # #
+      space_char: ' ' # 1
+      epochs: 100000
+      max_epochs_no_improvement: 200
+    eval:
+      batch_size: 1
+    load_path: './m18_hwr_states/transcript_crnn_fold0_183.pt'
+  style: # the style recognition portion of the agent expecting HoOGs & MEVM
+    # The separate style tasks' MEVM params
+    writer_id:
+      max_unknown: 1
+      detection_threshold: 0.0
+      distance_function: cosine
+      num_known_classes: 50
+      model_path: './m18_hwr_states/style_mevms/evm_writer_m18.pkl'
+    pen_pressure:
+      max_unknown: 1
+      detection_threshold: 0.0
+      distance_function: cosine
+      num_known_classes: 3
+      model_path: './m18_hwr_states/style_mevms/evm_imbal_pen_pressure_m18.pkl'
+    letter_size:
+      max_unknown: 1
+      detection_threshold: 0.0
+      distance_function: cosine
+      num_known_classes: 3
+      model_path: './m18_hwr_states/style_mevms/evm_imbal_letter_size_m18.pkl'
+    word_spacing:
+      max_unknown: 1
+      detection_threshold: 0.0
+      distance_function: cosine
+      num_known_classes: 3
+      model_path: './m18_hwr_states/style_mevms/evm_imbal_word_spacing_m18.pkl'
+    slant_angle:
+      max_unknown: 1
+      detection_threshold: 0.0
+      distance_function: cosine
+      num_known_classes: 4
+      model_path: './m18_hwr_states/style_mevms/evm_imbal_slant_angle_m18.pkl'
+    appearance:
+      max_unknown: 1
+      detection_threshold: 0.0
+      distance_function: cosine
+      num_known_classes: 5
+      model_path: './m18_hwr_states/style_mevms/evm_imbal_appearance_m18.pkl'
+      labels:
+        - no_aug
+        - Antique
+        - Noise
+        - InvertColor
+        - Blur

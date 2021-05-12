@@ -1,0 +1,30 @@
+# @package _group_
+protocol: 'ond'
+workdir: ''
+harness: 'par'
+domain: transcripts
+dataset_root: ''
+test_ids:
+  - OND.0.10001.3518340
+is_eval_enabled: False
+is_eval_roundwise_enabled: False
+detectors:
+  has_reaction_baseline: False
+  has_baseline: False
+  csv_folder: "writer_identifier"
+  detector_configs:
+    HWRNoveltyDetector:
+      config_file_path: "../extra_configs/local_m18_hwr_config.yaml"
+      cores: 1
+      device: gpu
+      img_height: 64
+      hogs_ppc: 16
+      unknown_threshold: 0.5
+      crnn_pass: []
+      save_header_csv: 0
+      gpu_index: 0
+harness_config:
+  api_url: 'http://3.32.8.161:5000/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
