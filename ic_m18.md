@@ -56,7 +56,7 @@
 
 2. Modify problem configs
   Set the following variables in sailon_tinker_launcher/configs/problem/ic_ond18.yaml
-  and sailon_tinker_launcher/configs/problem/ic_ond18.yaml
+  and sailon_tinker_launcher/configs/problem/ic_without_rd_ond18.yaml
     1. workdir: path to directory where all artifacts for the run are stored
     2. harness: Harness used for experiment (choices: local/par)
     3. test_ids: List of tests
@@ -66,8 +66,8 @@
 
 3. Without hydra
   ```
-  tinker -c configs/problem/local_configs/ic_without_rd_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
-  tinker -c configs/problem/local_configs/ic_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/ic_without_rd_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/ic_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
   ```
 
 3. Setup cluster config
