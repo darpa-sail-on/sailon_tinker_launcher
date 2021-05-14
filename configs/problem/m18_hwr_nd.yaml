@@ -20,6 +20,7 @@ detectors:
       img_height: 64
       hogs_ppc: 16
       unknown_threshold: 0.5
+      detection_scalar: 0.7
       crnn_pass: []
       save_header_csv: 0
       gpu_index: 0
