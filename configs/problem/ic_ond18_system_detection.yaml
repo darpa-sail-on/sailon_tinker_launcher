@@ -20,7 +20,7 @@ detectors:
           known_unknown_classes: 51
           image_size: 320
       evm_params:
-         model_path: ""
+         weight_evm: ""
          tail_size: 40000
          cover_threshold: 0.8
          distance_multiplier: 0.6
@@ -32,6 +32,7 @@ detectors:
          mu_train: 1.0
          sigma_train: 0.09128787
          KL_threshold: 13.25
+         adaption_weight: 1.1
       dataloader_params:
           batch_size: 100
           num_workers: 0
