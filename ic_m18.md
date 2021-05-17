@@ -51,7 +51,7 @@
 1. Download the feature extractor and evm model using
   ```
   wget https://vast.uccs.edu/~mjafarzadeh/trained_f1_umd_464.pth
-  wget https://vast.uccs.edu/~mjafarzadeh/evm_cosine_F1_umd_464_tail_40000_ct_0.8_dm_0.65.pkl
+  wget https://vast.uccs.edu/~mjafarzadeh/evm_cosine_F1_umd_464_tail_40000_ct_0.8_dm_0.6.pkl
   ```
 
 2. Modify problem configs
