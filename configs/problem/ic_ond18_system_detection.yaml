@@ -32,7 +32,6 @@ detectors:
          mu_train: 1.0
          sigma_train: 0.09128787
          KL_threshold: 13.25
-         threshold_evm: 0.5
       dataloader_params:
           batch_size: 100
           num_workers: 0
