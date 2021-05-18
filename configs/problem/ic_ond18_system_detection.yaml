@@ -25,10 +25,7 @@ detectors:
          cover_threshold: 0.8
          distance_multiplier: 0.6
          distance_function: "cosine"
-         chunk_size: 200
-         gpu_list:
-           - 0
-           - 1
+         chunk_size: 1000
          mu_train: 1.0
          sigma_train: 0.09128787
          KL_threshold: 13.25
