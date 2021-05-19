@@ -31,7 +31,8 @@ detectors:
          mu_train: 1.0
          sigma_train: 0.09128787
          KL_threshold: 13.25
-         adaption_weight: 1.1
+         weight_evm: 1.0,
+         adaptation_weight: 1.1
       dataloader_params:
           batch_size: 100
           num_workers: 6
