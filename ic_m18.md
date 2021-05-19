@@ -55,8 +55,8 @@
   ```
 
 2. Modify problem configs
-  Set the following variables in sailon_tinker_launcher/configs/problem/ic_ond18.yaml
-  and sailon_tinker_launcher/configs/problem/ic_without_rd_ond18.yaml
+  Set the following variables in sailon_tinker_launcher/configs/problem/ic_ond18_given_detection.yaml
+  and sailon_tinker_launcher/configs/problem/ic_ond18_system_detection.yaml
     1. workdir: path to directory where all artifacts for the run are stored
     2. harness: Harness used for experiment (choices: local/par)
     3. test_ids: List of tests
@@ -66,8 +66,8 @@
 
 3. Without hydra
   ```
-  tinker -c configs/problem/ic_without_rd_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
-  tinker -c configs/problem/ic_ond18.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/ic_ond18_given_detection.yaml sailon_tinker_launcher/tinker_launcher.py
+  tinker -c configs/problem/ic_ond18_system_detection.yaml sailon_tinker_launcher/tinker_launcher.py
   ```
 
 3. Setup cluster config
@@ -77,10 +77,10 @@
 
 4. Launch the configs using multirun
   ```
-    python hydra_launcher.py --multirun problem=ic_without_rd_ond18,ic_ond18
+    python hydra_launcher.py --multirun problem=ic_ond18_given_detection,ic_ond18_system_detection
   ```
 
 5. Launch the configs using SLURM
   ```
-  python hydra_launcher.py --multirun problem=ic_without_rd_ond18,ic_ond18 hydra/launcher=submitit_slurm
+    python hydra_launcher.py --multirun problem=ic_ond18_given_detection,ic_ond18_system_detection hydra/launcher=submitit_slurm
   ```
