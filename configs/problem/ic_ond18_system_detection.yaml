@@ -9,7 +9,7 @@ use_feedback: True
 is_eval_enabled: False
 dataset_root: ""
 detectors:
-  has_reaction_baseline: Flase
+  has_reaction_baseline: False
   has_baseline: False
   csv_folder: image_classification
   detector_configs:
