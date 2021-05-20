@@ -30,12 +30,12 @@ detectors:
          chunk_size: 1000
          mu_train: 1.0
          sigma_train: 0.09128787
-         KL_threshold: 13.25
+         KL_threshold: 10.6
          weight_evm: 1.0
-         adaptation_weight: 1.1
+         adaptation_weight: 1.01
       dataloader_params:
           batch_size: 100
-          num_workers: 6
+          num_workers: 4
       feedback_params:
           first_budget: 10
           income_per_batch: 10
