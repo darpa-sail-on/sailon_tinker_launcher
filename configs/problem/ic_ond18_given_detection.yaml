@@ -30,7 +30,7 @@ detectors:
          chunk_size: 1000
          mu_train: 1.0
          sigma_train: 0.09128787
-         KL_threshold: 10.6
+         KL_threshold: 13.25
          weight_evm: 1.0
          adaptation_weight: 1.01
       dataloader_params:
