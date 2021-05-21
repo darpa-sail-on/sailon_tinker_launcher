@@ -1,0 +1,51 @@
+# @package _group_
+protocol: 'ond'
+workdir: ''
+harness: 'local'
+domain: "image_classification"
+test_ids:
+- "OND.54011215.0000.1236"
+hints:
+- "red_light"
+use_feedback: True
+is_eval_enabled: False
+dataset_root: ""
+detectors:
+  has_reaction_baseline: False
+  has_baseline: False
+  csv_folder: image_classification
+  detector_configs:
+    OND_18_With_Redlight:
+      cnn_params:
+          model_path: ""
+          known_classes: 413
+          known_unknown_classes: 51
+          image_size: 320
+      evm_params:
+         model_path: ""
+         tail_size: 40000
+         cover_threshold: 0.8
+         distance_multiplier: 0.6
+         distance_function: "cosine"
+         chunk_size: 1000
+         mu_train: 1.0
+         sigma_train: 0.09128787
+         KL_threshold: 13.25
+         weight_evm: 1.0
+         adaptation_weight: 1.01
+      dataloader_params:
+          batch_size: 100
+          num_workers: 4
+      feedback_params:
+          first_budget: 10
+          income_per_batch: 10
+          maximum_budget: 10
+  save_elementwise: False
+  save_attributes: False
+  use_saved_attributes: False
+save_dir: "{workdir.id}"
+harness_config:
+  api_url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''

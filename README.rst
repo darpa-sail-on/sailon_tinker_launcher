@@ -12,6 +12,7 @@ Month 18 Evaluation Instructions
 --------------------------------
 
 1. `Document Transcription <dt_m18.md>`_
+2. `Image Classification <ic_m18.md>`_
 
 .. warning::
     The documentation underneath this section is out of date please ignore it.
