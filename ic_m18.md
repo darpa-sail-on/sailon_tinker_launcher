@@ -18,10 +18,6 @@
   ```
     cd sail-on-client
     git checkout fix-characterization
-    cd ../evm_based_novelty_detector
-    git checkout add-eval-18-adapters
-    cd ../sailon_tinker_launcher
-    git checkout add-ond18-configs
   ```
 
 3. Create virtual environment for sail-on-client
