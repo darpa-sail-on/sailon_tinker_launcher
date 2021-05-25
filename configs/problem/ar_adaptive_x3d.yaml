@@ -1,0 +1,63 @@
+# @package _group_
+protocol: 'ond'
+workdir: ''
+harness: 'local'
+domain: activity_recognition
+test_ids:
+  - OND.0.90001.2100554
+dataset_root: ""
+use_saved_features: True
+use_consolidated_features: True
+save_dir: "x3d_self_eval"
+is_eval_enabled: False
+detectors:
+  has_baseline: False
+  has_reaction_baseline: False
+  csv_folder: activity_recognition
+  cores: 2
+  detection_threshold: 0.5
+  detector_configs:
+    adaptive_x3d:
+      feature_extractor_params:
+        x3d_version: "M"
+        num_classes: 88
+        num_channels: 3
+        dropout: 1.0
+        base_bn_splits: 1
+        resnet_shortcut: "B"
+        checkpoint_path: ""
+      kl_params:
+        window_size: 100
+        mu_train: 1.0
+        sigma_train: 0.109234035
+        KL_threshold: 2.2821471417278874
+        decay_rate: 0.6
+        num_rounds: 40
+      evm_params:
+        model_path:  ''
+        distance_function: 'cosine'
+        gpu_idx: 0
+      characterization_params:
+        clustering_type: FINCH
+        number_of_unknown_to_strat_clustering: 50
+      dataloader_params:
+        norm_value: 255.0
+        spatial_size: 224
+        frames: 80
+        gamma_tau: 5
+        mean:
+          - 0
+          - 0
+          - 0
+        std:
+          - 1
+          - 1
+          - 1
+        crops: 10
+        batch_size: 1
+        n_threads: 2
+harness_config:
+  url: 'http://3.32.8.161:5001/'
+  data_dir: ''
+  gt_dir: ''
+  gt_config: ''
