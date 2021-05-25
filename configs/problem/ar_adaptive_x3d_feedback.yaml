@@ -37,6 +37,7 @@ detectors:
         feedback_weight: 0.005
         decay_rate: 0.6
         num_rounds: 40
+        threshold_scale: 3.0
       evm_params:
         model_path:  ''
         distance_function: 'cosine'
