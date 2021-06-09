@@ -11,13 +11,12 @@ dataset_root: ""
 use_saved_features: True
 use_consolidated_features: True
 save_dir: ""
-is_eval_enabled: True
-is_eval_roundwise_enabled: True
+is_eval_enabled: False
+is_eval_roundwise_enabled: False
 detectors:
   has_baseline: False
-  has_reaction_baseline: True
+  has_reaction_baseline: False
   csv_folder: activity_recognition
-  baseline_class: 'baseline_i3d'
   cores: 6
   detection_threshold: 0.5
   detector_configs:
@@ -58,36 +57,6 @@ detectors:
         crops: 10
         batch_size: 1
         n_threads: 2
-    baseline_i3d:
-      feature_extractor_params:
-        backbone_weight_path: ''
-        name: i3d
-        arch: i3d-50
-        model_name: i3d
-        n_classes: 88
-        no_cuda: 'False'
-        hidden_dims:
-          - 512
-          - 128
-        hidden: 'True'
-        in_dim: 1024
-        num_heads:
-          - 4
-          - 1
-        sample_duration: 64
-        mode: score
-        graph_classes: 88
-        feature_type: graph
-      dataloader_params:
-        sample_size: 224
-        mean:
-          - 114.7748
-          - 107.7354
-          - 99.475
-        sample_duration: 64
-        batch_size: 1
-        n_threads: 2
-        n_classes: 88
 harness_config:
   api_url: 'http://3.32.8.161:5001/'
   data_dir: ''

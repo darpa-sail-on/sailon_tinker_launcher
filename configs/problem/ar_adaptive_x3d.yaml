@@ -10,6 +10,7 @@ use_saved_features: True
 use_consolidated_features: True
 save_dir: "x3d_self_eval"
 is_eval_enabled: False
+is_eval_roundwise_enabled: False
 detectors:
   has_baseline: False
   has_reaction_baseline: False
