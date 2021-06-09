@@ -35,7 +35,7 @@ detectors:
         sigma_train: 0.109234035
         KL_threshold: 2.2821471417278874
         feedback_weight: 0.005
-        decay_rate: 0.6
+        decay_rate: 2.1
         num_rounds: 40
         threshold_scale: 3.0
       evm_params:
