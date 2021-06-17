@@ -4,21 +4,23 @@ workdir: ''
 harness: 'local'
 domain: activity_recognition
 test_ids:
-  - OND.0.90001.2100554
+    - OND.11355983.36308137.2192
 dataset_root: ""
 use_saved_features: True
 use_consolidated_features: True
-save_dir: "x3d_self_eval"
+save_dir: ""
+use_feedback: True
 is_eval_enabled: False
 is_eval_roundwise_enabled: False
 detectors:
   has_baseline: False
-  has_reaction_baseline: False
+  has_reaction_baseline: True
   csv_folder: activity_recognition
-  cores: 6
-  detection_threshold: 0.1
+  baseline_class: 'baseline_i3d'
+  cores: 2
+  detection_threshold: 0.5
   detector_configs:
-    x3d:
+    adaptive_x3d:
       feature_extractor_params:
         x3d_version: "M"
         num_classes: 88
@@ -32,6 +34,10 @@ detectors:
         mu_train: 1.0
         sigma_train: 0.109234035
         KL_threshold: 2.2821471417278874
+        feedback_weight: 0.005
+        decay_rate: 2.1
+        num_rounds: 40
+        threshold_scale: 3.0
       evm_params:
         model_path:  ''
         distance_function: 'cosine'
@@ -55,6 +61,40 @@ detectors:
         crops: 10
         batch_size: 1
         n_threads: 2
+      feedback_params:
+          first_budget: 4
+          income_per_batch: 4
+          maximum_budget: 4
+    baseline_i3d:
+      feature_extractor_params:
+        backbone_weight_path: ''
+        name: i3d
+        arch: i3d-50
+        model_name: i3d
+        n_classes: 88
+        no_cuda: 'False'
+        hidden_dims:
+          - 512
+          - 128
+        hidden: 'True'
+        in_dim: 1024
+        num_heads:
+          - 4
+          - 1
+        sample_duration: 64
+        mode: score
+        graph_classes: 88
+        feature_type: graph
+      dataloader_params:
+        sample_size: 224
+        mean:
+          - 114.7748
+          - 107.7354
+          - 99.475
+        sample_duration: 64
+        batch_size: 1
+        n_threads: 2
+        n_classes: 88
 harness_config:
   url: 'http://3.32.8.161:5001/'
   data_dir: ''
